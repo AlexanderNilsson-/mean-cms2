@@ -4,5 +4,6 @@ app.controller('HomeController',['$scope','mongoService', '$location', '$routePa
   $scope.deletePost = function(postID){
     //enter id to be deleted as object :D
     mongoService.destroy({"id": postID});
+    $scope.showPosts = mongoService.index();
   }
 }]);
