@@ -101,7 +101,7 @@ app.factory("mongoService", function($resource, $http) {
     localStorage.setItem("Session", JSON.stringify(userData));
     this.id = userData["_id"]
     this.userId = userData["userId"];
-    this.userRole = userData["userId"];
+    this.userRole = userData["userRole"];
     this.getSession();
   };
   this.destroy = function () {
@@ -119,7 +119,7 @@ app.factory("mongoService", function($resource, $http) {
     //else set variables again and move on!
     this.id = sessionData["id"]
     this.userId = sessionData["userId"];
-    this.userRole = sessionData["userId"];
+    this.userRole = sessionData["userRole"];
     return sessionData;
   }
 
