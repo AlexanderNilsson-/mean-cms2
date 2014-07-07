@@ -21,6 +21,11 @@ app.configure('production', function(){
   app.use(express.errorHandler());
 });
 
+//get user details for login
+app.get("/api/users", api.getUsers);
+
+//this is how we "send" multiple params with REST :D
+app.get("/api/users/:username.:password", api.getUser);
 
 app.get('/api/posts', api.getBlogPosts);
 app.get('/api/posts/:id', api.getBlogPost);

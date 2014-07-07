@@ -1,0 +1,18 @@
+<div>
+  <h1>Home</h1>
+  <h2> {{tagline}} </h2>
+
+  <form name="loginForm"
+        action="" target="sink" method="get"
+        ng-submit="login(credentials)"
+        novalidate form-autofill-fix>
+    <label for="username">Username:</label>
+    <input type="text" id="username"
+           ng-model="credentials.username">
+    <label for="password">Password:</label>
+    <input type="password" id="password"
+           ng-model="credentials.password">
+    <button type="submit">Login</button>
+  </form>
+  <p>{{showUsers}}</p>
+</div>

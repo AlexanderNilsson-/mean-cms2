@@ -11,7 +11,23 @@ db.once('open', function callback () {
 var postSchema = mongoose.Schema({ author: String, content: String});
 var Post = mongoose.model('Post', postSchema);
 
+var userSchema = mongoose.Schema({username: String, password: String, userid: Number, role: String});
+var User = mongoose.model('User', userSchema);
 
+//get user data
+exports.getUsers = function (req, res) {
+  User.find({}, function(err, obj) {
+    console.log("find all users", obj);
+    res.json(obj);
+  });
+};
+exports.getUser = function(req, res) {
+  // User.find({user_name: req.params.user_name, password: req.params.password}, function(err, obj) 
+  User.findOne({username: req.params.username, password: req.params.password}, function(err, obj) {
+    console.log("Login Response: ", obj);
+    res.json(obj);
+  });
+};
 
 exports.getBlogPosts = function(req, res) {
   Post.find({}, function(err, obj) {

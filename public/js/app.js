@@ -1,22 +1,43 @@
 'use strict';
 
 // Declare app level module which depends on filters, and services
-var app = angular.module('myApp', ["ngResource"]).
-  config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+var app = angular.module('myApp', ["ngResource", "ngRoute", "ui.router"])
+  .run(function ($rootScope, AUTH_EVENTS, AuthService, $location) {
+    //when a user requests a new url, check if they are allowed
+    //to go there. For example: any url containing substr "admin"
+    $rootScope.$on('$locationChangeStart', function (event, next) {
+      //if you want to prevent more pages from being accessed,
+      //this is where you do it. 
+      //if (next.indexOf("urlToRestrict"))...
+      if (next.indexOf("admin") > -1) {
+        var authorizedRoles = AuthService.authorizedRoles;
+        if (!AuthService.isAuthorized(authorizedRoles)) {
+          event.preventDefault();
+          if (AuthService.isAuthenticated()) {
+            // user is not allowed
+            $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
+          } else {
+            // user is not logged in
+            $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
+          }
+        }
+      }
+    });
+  })
+  .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
     
     $routeProvider
       
       .when('/', {
-        templateUrl: 'views/home.html',
-        controller: 'MainController'
+        templateUrl: 'views/main.html',
+        controller: 'LoginController'
       })
 
       .when('/admin', {
         templateUrl: 'views/admin.html',
         controller: 'AdminController'
       })
-
 
       .when('/posts/:id', {
         templateUrl: '/index.html',
@@ -29,5 +50,26 @@ var app = angular.module('myApp', ["ngResource"]).
       });
         
       $routeProvider.otherwise({redirectTo: '/'});
-  
-}]);
+  }])
+  .config(function ($httpProvider) {
+    $httpProvider.interceptors.push([
+      '$injector',
+      function ($injector) {
+        return $injector.get('AuthInterceptor');
+      }
+    ]);
+  })
+  .constant('AUTH_EVENTS', {
+    loginSuccess: 'auth-login-success',
+    loginFailed: 'auth-login-failed',
+    logoutSuccess: 'auth-logout-success',
+    sessionTimeout: 'auth-session-timeout',
+    notAuthenticated: 'auth-not-authenticated',
+    notAuthorized: 'auth-not-authorized'
+  })
+  .constant('USER_ROLES', {
+    all: '*',
+    admin: 'admin',
+    editor: 'editor',
+    guest: 'guest'
+});

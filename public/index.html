@@ -13,20 +13,31 @@
     <!-- ANGULAR CUSTOM -->
     <script src="js/lib/angular/angular.js"></script>
     <script src="js/lib/angular/angular-resource.js"></script>
+    <script src="js/lib/angular/angular-route.js"></script>
+    <script src="js/lib/angular/angular-ui-router.js"></script>
     <script src="js/app.js"></script>
     <script src="js/services.js"></script>
+    <script src="js/controllers/ApplicationController.js"></script>
     <script src="js/controllers/AdminController.js"></script>
     <script src="js/controllers/HomeController.js"></script>
-    <script src="js/controllers/MainController.js"></script>
+    <script src="js/controllers/LoginController.js"></script>
     <script src="js/filters.js"></script>
     <script src="js/directives.js"></script>
 
   </head>
 
-  <body ng-controller="AdminController">
+  <body ng-controller="ApplicationController">
 
     <div class="container">
-
+        
+      <div ng-if="currentUser">Welcome, {{ currentUser.name }}</div>
+      <div ng-if="currentUser"><button ng-click="logout()">Log out</button></div>
+      <div ng-if="isAuthorized(userRoles.admin)">You're admin.</div>
+      <div ng-switch on="currentUser.role">
+        <div ng-switch-when="userRoles.admin">You're admin.</div>
+        <div ng-switch-when="userRoles.editor">You're editor.</div>
+        <div ng-switch-default>You're something else.</div>
+      </div>
 
       <a href="/admin">Admin</a>
       <a href="/home">Home</a>
