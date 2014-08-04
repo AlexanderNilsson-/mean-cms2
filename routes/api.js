@@ -29,6 +29,13 @@ exports.getUser = function(req, res) {
   });
 };
 
+exports.createUser = function(req, res) {
+  var newUser = new User ({username: "admin", password: "admin", userid: 1, role: "admin"});
+  console.log("createUser");
+  newUser.save();
+  res.json(req.body);
+};
+
 exports.getBlogPosts = function(req, res) {
   Post.find({}, function(err, obj) {
     console.log('bloggpost1', obj);

@@ -26,6 +26,7 @@ app.get("/api/users", api.getUsers);
 
 //this is how we "send" multiple params with REST :D
 app.get("/api/users/:username.:password", api.getUser);
+app.post('/api/users', api.createUser);
 
 app.get('/api/posts', api.getBlogPosts);
 app.get('/api/posts/:id', api.getBlogPost);
