@@ -56,7 +56,16 @@ app.factory("mongoService", function($resource, $http) {
       $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
       return false;
     });
-  }
+  };
+
+  AuthServant.create = function (credentials) {
+    var usersResource = mongoService.users();
+    usersResource.create(credentials, function(res) {
+      console.log("Created account", credentials);
+
+    });
+  };
+
   AuthServant.isAuthenticated = function () {
     //i have no idea what this does
     return !!Session.userId;

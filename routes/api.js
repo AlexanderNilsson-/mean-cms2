@@ -11,7 +11,7 @@ db.once('open', function callback () {
 var postSchema = mongoose.Schema({ author: String, content: String});
 var Post = mongoose.model('Post', postSchema);
 
-var userSchema = mongoose.Schema({username: String, password: String, userid: Number, role: String});
+var userSchema = mongoose.Schema({username: String, password: String, userId: Number, userRole: String});
 var User = mongoose.model('User', userSchema);
 
 //get user data
@@ -30,7 +30,7 @@ exports.getUser = function(req, res) {
 };
 
 exports.createUser = function(req, res) {
-  var newUser = new User ({username: "admin", password: "admin", userid: 1, role: "admin"});
+  var newUser = new User (req.body);
   console.log("createUser");
   newUser.save();
   res.json(req.body);

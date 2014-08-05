@@ -6,4 +6,10 @@ app.controller('LoginController', function ($scope, $rootScope, AUTH_EVENTS, Aut
     //AuthService deals with all authentication of users
     AuthService.login(credentials);
   };
+
+  $scope.create = function (credentials) {
+    //AuthService deals with all authentication of users
+    AuthService.create(credentials);
+  };
+
 });

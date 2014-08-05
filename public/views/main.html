@@ -14,5 +14,24 @@
            ng-model="credentials.password">
     <button type="submit">Login</button>
   </form>
+
+  <form name="registerForm"
+        action="" target="sink" method="post"
+        ng-submit="create(register)"
+        novalidate form-autofill-fix>
+    <label for="username">Username:</label>
+    <input type="text" id="username"
+           ng-model="register.username">
+    <label for="password">Password:</label>
+    <input type="password" id="password"
+           ng-model="register.password">
+    <label for="role">Role:</label>
+    <input type="text" id="role"
+           ng-model="register.userRole">
+
+    <button type="submit">Register</button>
+  </form>
+
+
   <p>{{showUsers}}</p>
 </div>
