@@ -30,6 +30,15 @@ app.factory("mongoService", function($resource, $http) {
     );
     return resource;
   };
+  
+  mongoServant.register = function() {
+    var resource = $resource("/api/users/", { },
+      {
+        'create':  { method: 'POST' }
+      }
+    );
+    return resource;
+  };
 
   return mongoServant;
 })
@@ -41,7 +50,6 @@ app.factory("mongoService", function($resource, $http) {
   //login function
   AuthServant.login = function (credentials) {
     var usersResource = mongoService.users();
-    //.show(params, successCallback(), errorCallback());
     usersResource.show(credentials, function(res) {
       //create a new session
       Session.create(res);
@@ -49,8 +57,8 @@ app.factory("mongoService", function($resource, $http) {
       //broadcast your success to the world!
       $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
 
-      //then go home :D
-      $location.path("/home");
+      //then go to admin page
+      $location.path("/admin");
     }, function(err) {
       //broadcast your failure
       $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
@@ -58,8 +66,9 @@ app.factory("mongoService", function($resource, $http) {
     });
   };
 
+  // Create a new user
   AuthServant.create = function (credentials) {
-    var usersResource = mongoService.users();
+    var usersResource = mongoService.register();
     usersResource.create(credentials, function(res) {
       console.log("Created account", credentials);
 

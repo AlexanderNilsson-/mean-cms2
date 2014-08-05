@@ -8,6 +8,8 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="css/app.css"> <!-- custom styles -->
+    <link rel="stylesheet" href="css/bootstrap.css"> <!-- bootstrap styles -->
+
 
 
     <!-- ANGULAR CUSTOM -->
@@ -28,21 +30,17 @@
 
   <body ng-controller="ApplicationController">
 
-    <div class="container">
-        
-      <div ng-if="currentUser">Welcome, {{ currentUser.name }}</div>
+    <div class="menu">
+      <div ng-if="currentUser">Welcome, {{ currentUser.username }}</div>
+      <div ng-if="!currentUser"><a class="btn" href="/login">Log in</a></div>
       <div ng-if="currentUser"><button ng-click="logout()">Log out</button></div>
-      <div ng-if="isAuthorized(userRoles.admin)">You're admin.</div>
-      <div ng-switch on="currentUser.role">
-        <div ng-switch-when="userRoles.admin">You're admin.</div>
-        <div ng-switch-when="userRoles.editor">You're editor.</div>
-        <div ng-switch-default>You're something else.</div>
-      </div>
+      <div ng-if="isAuthorized(userRoles.admin)"><a class="btn" href="/">Home</a></div>
+      <div ng-if="isAuthorized(userRoles.admin)">You're an <a href="/admin">Admin.</a></div>
+      <div ng-if="isAuthorized(userRoles.editor)">You're an <a href="/admin">Editor.</a></div>
+    </div>
 
-      <a href="/admin">Admin</a>
-      <a href="/home">Home</a>
-      <!-- ANGULAR DYNAMIC CONTENT -->
-      <div ng-view></div>
+    <!-- ANGULAR DYNAMIC CONTENT -->
+    <div ng-view></div>
 
     </div>
   </body>

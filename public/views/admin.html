@@ -1,25 +1,30 @@
 <div>
-  <h1>Admin page</h1>
 
+  <h1>Admin page</h1>
+  <h3>Create new post</h3>
   <form>
     <input type="text" name="author" id="author" ng-model="newPost.author" placeholder="Author">
     <br>
-    <textarea rows="3" cols="70" ng-model="newPost.content" id="new-message" placeholder="Write your message here..."></textarea>  
+    <input type="text" name="title" id="title" ng-model="newPost.title" placeholder="Title">
+    <br>
+    <textarea rows="3" cols="70" ng-model="newPost.content" id="new-message" placeholder="Write your post here..."></textarea>  
     <button ng-click="insertNewMessage(newPost)">Send</button>
   </form>
 
 
 
   <br>
-
+  <h3>Update post</h3>
   <form>
     <input type="text" name="author" id="author" ng-model="updatePost.author" placeholder="Author">
     <input type="text" name="postID" id="postID" ng-model="updatePost.postID" placeholder="ID">
 
     <br>
-    <textarea rows="3" cols="70" ng-model="newPost.content" id="new-message" placeholder="Write your message here..."></textarea>  
+    <textarea rows="3" cols="70" ng-model="newPost.content" id="new-message" placeholder="Write your updated post here..."></textarea>  
     <button ng-click="updateMessage(newPost)">Send</button>
   </form>
 
   <p>{{ tagline }}</p>
+
+
 </div>

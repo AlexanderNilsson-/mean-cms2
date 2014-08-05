@@ -8,7 +8,7 @@ db.once('open', function callback () {
 });
 
 
-var postSchema = mongoose.Schema({ author: String, content: String});
+var postSchema = mongoose.Schema({ author: String, title: String, content: String});
 var Post = mongoose.model('Post', postSchema);
 
 var userSchema = mongoose.Schema({username: String, password: String, userId: Number, userRole: String});

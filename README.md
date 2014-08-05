@@ -1,3 +1,6 @@
+To reach admin-page go to /admin
+
+
 Using idea from: 
 https://medium.com/opinionated-angularjs/techniques-for-authentication-in-angularjs-applications-7bbf0346acec
 For login solution, heavily modified!

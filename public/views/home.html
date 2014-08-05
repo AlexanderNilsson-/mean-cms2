@@ -1,10 +1,12 @@
 <div>
-  <h1>Home</h1>
-  <h2> {{tagline}} </h2>
+
+  <h3>Home</h3>
 
   <div class="content">
     <ul ng-repeat="posts in showPosts">
       <li>{{posts.author}}</li>
+      <li>{{posts.title}}</li>
+
       <li>{{posts.content}}</li>
       <button ng-click="deletePost(posts._id)">DELETE</button>
     </ul>

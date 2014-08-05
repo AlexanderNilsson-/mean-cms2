@@ -30,8 +30,8 @@ var app = angular.module('myApp', ["ngResource", "ngRoute", "ui.router"])
     $routeProvider
       
       .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'LoginController'
+        templateUrl: 'views/home.html',
+        controller: 'HomeController'
       })
 
       .when('/admin', {
@@ -44,9 +44,9 @@ var app = angular.module('myApp', ["ngResource", "ngRoute", "ui.router"])
         controller: 'AdminController'
       })
 
-      .when('/home', {
-        templateUrl: 'views/home.html',
-        controller: 'HomeController'
+      .when('/login', {
+        templateUrl: 'views/login.html',
+        controller: 'LoginController'
       });
         
       $routeProvider.otherwise({redirectTo: '/'});
