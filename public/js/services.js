@@ -56,7 +56,7 @@ app.factory("mongoService", function($resource, $http) {
 
       //broadcast your success to the world!
       $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-      
+
       //then go to admin page
       $location.path("/admin");
     }, function(err) {
@@ -114,11 +114,12 @@ app.factory("mongoService", function($resource, $http) {
 .service('Session', function () {
   this.create = function (userData) {
     //create a session and store some needed info
+    console.log(userData);
     var startStamp = Date.now();
     userData.startStamp = startStamp;
     localStorage.setItem("Session", JSON.stringify(userData));
     this.id = userData["_id"]
-    this.userId = userData["userId"];
+    this._id = userData["_id"];
     this.userRole = userData["userRole"];
     this.getSession();
   };
@@ -136,7 +137,7 @@ app.factory("mongoService", function($resource, $http) {
     if (!sessionData) { return; }
     //else set variables again and move on!
     this.id = sessionData["id"]
-    this.userId = sessionData["userId"];
+    this.userId = sessionData["_id"];
     this.userRole = sessionData["userRole"];
     return sessionData;
   }

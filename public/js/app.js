@@ -39,6 +39,11 @@ var app = angular.module('myApp', ["ngResource", "ngRoute", "ui.router"])
         controller: 'AdminController'
       })
 
+      .when('/register', {
+        templateUrl: 'views/register.html',
+        controller: 'AdminController'
+      })
+
       .when('/posts/:id', {
         templateUrl: '/index.html',
         controller: 'AdminController'

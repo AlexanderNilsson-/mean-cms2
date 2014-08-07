@@ -1,4 +1,7 @@
-app.controller('HomeController',['$scope', 'mongoService', '$location', '$routeParams', 'AuthService', function($scope, mongoService, $routeParams, $location, AuthService) {
+app.controller('HomeController',['$scope', 'mongoService', '$location', '$routeParams', 'AuthService','USER_ROLES','Session', function($scope, mongoService, $routeParams, $location, AuthService, USER_ROLES, Session) {
+  $scope.userRoles = USER_ROLES;
+  $scope.currentUser = Session.getSession();
+  
   var postsResource = mongoService.posts();
   $scope.showPosts = postsResource.index();
   
