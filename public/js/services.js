@@ -56,7 +56,7 @@ app.factory("mongoService", function($resource, $http) {
 
       //broadcast your success to the world!
       $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-
+      
       //then go to admin page
       $location.path("/admin");
     }, function(err) {
