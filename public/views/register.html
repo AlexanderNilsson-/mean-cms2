@@ -1,0 +1,22 @@
+ <h3>Register new user</h3>
+ <form name="registerForm"
+        action="" target="sink" method="post"
+        ng-submit="create(register)"
+        novalidate form-autofill-fix>
+
+    <label for="username">Username:</label>
+    <input type="text" id="username"
+           ng-model="register.username">
+
+    <label for="password">Password:</label>
+    <input type="password" id="password"
+           ng-model="register.password">
+
+    <label for="userRole">Role:</label>
+    <select id="userRole" value="userRole">
+        <option value="admin">Admin</option>
+        <option value="editor">Editor</option>
+    </select>
+
+    <button type="submit">Register</button>
+  </form>
