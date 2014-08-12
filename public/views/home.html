@@ -3,17 +3,12 @@
     <ul ng-repeat="posts in showPosts">
 	    <div class="blogpost">
 	      <li class="title">
-          <div ng-if="isAuthorized(currentUser.role)">
-            <h1><a ng-href="/admin/edit/{{posts._id}}">{{posts.title}}</a></h1>
-          </div>
-          <div ng-if="!isAuthorized(currentUser.role)">
-            <h1><a ng-href="/view/{{posts._id}}">{{posts.title}}</a></h1>
-          </div>
+          <h1><a ng-href="/view/{{posts._id}}">{{posts.title}}</a></h1>
         </li>
 
 	      <li class="content"><p>{{posts.content}}</p></li>
 	      <li class="author"><h5>Av {{posts.author}}</h5></li>
-	      <div ng-if="isAuthorized(currentUser.role)"><button class="delete" ng-click="deletePost(posts._id)">DELETE</button></div>
+	      <div ng-if="isAuthorized(currentUser.role)"><a class="btn" ng-href="/admin/edit/{{posts._id}}">Edit post</a><a class="btn delete" ng-click="deletePost(posts._id)">Delete</a></div>
 	    </div> 
     </ul>
   </div>

@@ -17,7 +17,7 @@
               <br>
 
               <textarea class="messagebox" ng-model="newPost.content" id="new-message" placeholder="Write your post here..."></textarea>
-              <button ng-click="insertNewMessage(newPost)">Send</button><a class="btn" ng-href="/admin">Cancel</a>
+              <a class="btn"  ng-click="insertNewMessage(newPost)">Send</a><a class="btn" ng-href="/admin">Cancel</a>
 
             </form>
           </div>
@@ -30,7 +30,7 @@
             <input type="text" name="title" id="title" ng-model="postData.title" ng-value="post_title" placeholder="Title">
             <br>
             <textarea rows="3" cols="70" ng-model="postData.content" id="new-message" placeholder="Write your post here...">{{postData.content}}</textarea>
-            <button ng-click="updateMessage(postData)">Send</button><a class="btn" ng-href="/admin">Cancel</a>
+            <a class="btn" ng-click="updateMessage(postData)">Send</a><a class="btn" ng-href="/admin">Cancel</a>
           </form>
         </div>
       </div>
@@ -40,17 +40,12 @@
       <ul ng-repeat="posts in showPosts">
       <div class="blogpost">
         <li class="title">
-          <div ng-if="isAuthorized(currentUser.role)">
-            <h1><a ng-href="/admin/edit/{{posts._id}}">{{posts.title}}</a></h1>
-          </div>
-          <div ng-if="!isAuthorized(currentUser.role)">
-            <h1><a ng-href="/view/{{posts._id}}">{{posts.title}}</a></h1>
-          </div>
+          <h1><a ng-href="/view/{{posts._id}}">{{posts.title}}</a></h1>
         </li>
         <li class="content"><p>{{posts.content}}</p></li>
         <li class="author"><h5>Av {{posts.author}}</h5></li>
         <li class="edit"><a class="btn" ng-click="goToEdit(posts._id)">Edit</a></li>
-        <div class ="delete" ng-if="isAuthorized(currentUser.role)"><a class="btn" ng-click="deletePost(posts._id)">Delete</a></div>
+        <div class ="delete" ng-if="isAuthorized(currentUser.role)"><a class="btn" ng-href="/admin/edit/{{posts._id}}">Edit post</a><a class="btn" ng-click="deletePost(posts._id)">Delete</a></div>
       </div> 
     </ul>
     </div><!-- end #adminPostListDiv -->
