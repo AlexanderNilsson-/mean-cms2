@@ -62,8 +62,11 @@ app.controller('AdminController', ['$scope', '$rootScope','mongoService', '$loca
   
   $scope.deletePost = function(post_id){
     //enter id to be deleted as object :D
-    postsResource.destroy({"id": post_id});
-    $scope.showPosts = postsResource.index();
+    var confirmDelete = confirm("Do you really want to delete this post?");
+    if (confirmDelete) {
+      postsResource.destroy({"id": post_id});
+      $scope.showPosts = postsResource.index();
+    }
   }
   
   //mongoService.create($scope.contact, success, failure);
