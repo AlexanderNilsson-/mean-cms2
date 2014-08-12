@@ -41,8 +41,8 @@
       <div class="blogpost">
         <li class="title"><h1>{{posts.title}}</h1></li>
         <li class="content"><p>{{posts.content}}</p></li>
-        <li class="author"><a class="btn" ng-click="goToEdit(posts._id)">Edit postID {{posts._id}}</a></li>
         <li class="author"><h5>Av {{posts.author}}</h5></li>
+        <li class="author"><a class="btn edit" ng-click="goToEdit(posts._id)">Edit</a></li>
         <div class ="delete" ng-if="isAuthorized(currentUser.role)"><a class="btn" ng-click="deletePost(posts._id)">DELETE</a></div>
       </div> 
     </ul>

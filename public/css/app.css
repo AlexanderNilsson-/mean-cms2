@@ -39,6 +39,11 @@ li {
   width: 70%
 }
 
+.edit {
+  float: left;
+  margin-right: 10px;
+}
+  
 .title{
 	width: 100%;
 	margin-bottom: 35px;
