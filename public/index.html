@@ -37,7 +37,7 @@
       <div ng-if="currentUser">Welcome, {{ currentUser.username }}</div>
       <div ng-if="!currentUser"><a class="btn" href="/login">Log in</a></div>
       <div ng-if="currentUser"><button ng-click="logout()">Log out</button></div>
-      <div ng-if="isAuthorized(userRoles.admin)||(userRoles.editor)"><a class="btn" href="/">Home</a></div>
+      <div ng-if="currentUser"><a class="btn" href="/">Home</a></div>
       <div ng-if="isAuthorized(userRoles.admin)"><a class="btn" href="/register">Register</a></div>
       <div ng-if="isAuthorized(userRoles.admin)">You're an <a href="/admin">Admin.</a></div>
       <div ng-if="isAuthorized(userRoles.editor)">You're an <a href="/admin">Editor.</a></div>
