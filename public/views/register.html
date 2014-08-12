@@ -13,7 +13,7 @@
            ng-model="register.password">
 
     <label for="userRole">Role:</label>
-    <select id="userRole" value="userRole">
+    <select id="userRole" ng-model="register.role" value="role">
         <option value="admin">Admin</option>
         <option value="editor">Editor</option>
     </select>

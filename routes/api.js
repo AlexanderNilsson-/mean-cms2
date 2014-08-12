@@ -11,7 +11,7 @@ db.once('open', function callback () {
 var postSchema = mongoose.Schema({ author: String, title: String, content: String, timeStamp: Number});
 var Post = mongoose.model('Post', postSchema);
 
-var userSchema = mongoose.Schema({username: String, password: String, userRole: String});
+var userSchema = mongoose.Schema({username: String, password: String, role: String});
 var User = mongoose.model('User', userSchema);
 
 //get user data
@@ -22,7 +22,7 @@ exports.getUsers = function (req, res) {
   });
 };
 exports.getUser = function(req, res) {
-  // User.find({user_name: req.params.user_name, password: req.params.password}, function(err, obj) 
+  // User.find({user_name: req.params.user_name, password: req.params.password}, function(err, obj) {
   User.findOne({username: req.params.username, password: req.params.password}, function(err, obj) {
     console.log("Login Response: ", obj);
     res.json(obj);

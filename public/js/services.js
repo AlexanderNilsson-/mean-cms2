@@ -19,7 +19,7 @@ app.factory("mongoService", function($resource, $http) {
     return resource;
   };
   mongoServant.users = function() {
-    var resource = $resource("/api/users/:username.:password", { username: "@username"},
+    var resource = $resource("/api/users/:username.:password", { username: "@username", password: "$password"},
       {
         'create':  { method: 'POST' },
         'index':   { method: 'GET', isArray: true },
@@ -50,29 +50,28 @@ app.factory("mongoService", function($resource, $http) {
   //login function
   AuthServant.login = function (credentials) {
     var usersResource = mongoService.users();
-    var queryResult = usersResource.show(credentials, function(res) {
+    var queryResult = {};
+    queryResult = usersResource.show(credentials, function(res) {
       //create a new session
-      var success = Session.create(res);
-      var authorizedRoles = AuthServant.authorizedRoles;
+        var success = Session.create(queryResult);
+        var authorizedRoles = AuthServant.authorizedRoles;
 
-      if (success && (authorizedRoles.indexOf(success.role) >= 0)) {
-        //broadcast your success to the world!
-        $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
+        if (success && (authorizedRoles.indexOf(success.role) >= 0)) {
+          //broadcast your success to the world!
+          $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
 
-        return success;
-      } else {
-        //broadcast your failure to the world!
-        $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
-        
-        return false;
-      }
+          return success;
+        } else {
+          //broadcast your failure to the world!
+          $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
+          
+          return false;
+        }
     }, function(err) {
       //broadcast your failure
       $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
       return false;
     });
-
-    return queryResult;
   };
 
   // Create a new user
@@ -85,14 +84,14 @@ app.factory("mongoService", function($resource, $http) {
 
   AuthServant.isAuthenticated = function () {
     //i have no idea what this does
-    return !!Session.userId;
+    return !!Session._id;
   };
   AuthServant.isAuthorized = function (authorizedRoles) {
     if (!angular.isArray(authorizedRoles)) {
       authorizedRoles = [authorizedRoles];
     }
 
-    return (AuthServant.isAuthenticated() && authorizedRoles.indexOf(Session.userRole) !== -1);
+    return (AuthServant.isAuthenticated() && authorizedRoles.indexOf(Session.role) !== -1);
   };
 
   //we should probably update these
@@ -120,26 +119,30 @@ app.factory("mongoService", function($resource, $http) {
     }
   };
 })
+
 .service('Session', function () {
+  var me = this;
   this.create = function (userData) {
     //create a session and store some needed info
     var startStamp = Date.now();
     userData.startStamp = startStamp;
+
     localStorage.setItem("Session", JSON.stringify(userData));
-    var sessionData = this.getSession();
-    this.id = sessionData["userid"]
-    this._id = sessionData["_id"];
-    this.userRole = sessionData["role"];
+    var sessionData = me.getSession();
+
+    me._id = sessionData._id;
+    me.userRole = sessionData.role;
 
     return sessionData;
   };
+
   this.destroy = function () {
     //destroy a session and remove info
     localStorage.removeItem("Session");
-    this.id = null;
-    this.userId = null;
-    this.userRole = null;
+    me._id = null;
+    me.role = null;
   };
+
   this.getSession = function() {
     //simple function for getting all session data if needed
     var sessionData = JSON.parse(localStorage.getItem("Session"));
@@ -147,21 +150,19 @@ app.factory("mongoService", function($resource, $http) {
     if (!sessionData || !sessionData.role) {
       //if no data, return false
       sessionData = {};
-      sessionData["id"] = false;
-      sessionData["_id"] = false;
-      sessionData["userRole"] = false;
+      sessionData._id = false;
+      sessionData.role = false;
 
       return false;
     }
     //else set variables again and move on!
-    this.id = sessionData["userid"]
-    this.userId = sessionData["_id"];
-    this.userRole = sessionData["role"];
+    me._id = sessionData._id;
+    me.role = sessionData.role;
 
     return sessionData;
   }
 
   //get session data already now just to be sure (overkill?)
-  this.getSession();
-  return this;
+  // me.getSession();
+  return me;
 });

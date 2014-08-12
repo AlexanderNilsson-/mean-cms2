@@ -21,7 +21,7 @@ var app = angular.module('myApp', ["ngResource", "ngRoute", "ui.router"])
             // user is not logged in
             $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
           }
-          location.href="/";
+          location.href = "/";
         }
       }
     });
