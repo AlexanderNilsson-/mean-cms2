@@ -15,8 +15,10 @@
               <br>
               <input type="text" name="title" id="title" ng-model="newPost.title" placeholder="Title">
               <br>
-              <textarea rows="3" cols="70" ng-model="newPost.content" id="new-message" placeholder="Write your post here..."></textarea>
+
+              <textarea class="messagebox" ng-model="newPost.content" id="new-message" placeholder="Write your post here..."></textarea>
               <button ng-click="insertNewMessage(newPost)">Send</button><a class="btn" ng-href="/admin">Cancel</a>
+
             </form>
           </div>
         </div>

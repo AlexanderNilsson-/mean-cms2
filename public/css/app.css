@@ -28,6 +28,17 @@ li {
 	width: 60%;
 	margin: 40px auto 20px;
 }
+
+.messagebox {
+  width: 70%;
+  height: 150px;
+  display: block;
+}
+
+#title {
+  width: 70%
+}
+
 .title{
 	width: 100%;
 	margin-bottom: 35px;
