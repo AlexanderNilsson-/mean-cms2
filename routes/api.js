@@ -56,8 +56,8 @@ exports.createBlogPost = function(req, res) {
 };
 
 exports.updateBlogPost = function(req, res) {
-  Post.findByIdAndUpdate(req.params.post, {
-    $set: { author: req.body.author, content: req.body.content}
+  Post.findByIdAndUpdate(req.params.id, {
+    $set: { author: req.body.author,title: req.body.title, content: req.body.content}
   }, { upsert: true },
   function(err, obj) {
     console.log("Updated blog", obj);
