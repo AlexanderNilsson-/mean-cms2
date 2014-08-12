@@ -61,7 +61,7 @@ var app = angular.module('myApp', ["ngResource", "ngRoute", "ui.router"])
         controller: 'AdminController'
       })
 
-      .when('/register', {
+      .when('/admin/register', {
         templateUrl: 'views/register.html',
         controller: 'AdminController'
       })
