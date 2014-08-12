@@ -1,19 +1,22 @@
-<div>
+<div class="main">
 
-  <h1>Admin page</h1>
-  <a class="btn" ng-click="goToEdit()">Create new post</a>
+  <header>
+    <h1>Admin page</h1>
+    <a class="btn" ng-click="goToEdit()">Create new post</a>
+  </header>
+  
   <div id="adminMainDiv">
     <div id="adminEditorMainDiv">
       
     </div> <!-- end #adminEditorMainDiv -->
-    <div ng-show="showPostList" ng-hide="!showPostList" id="adminPostListDiv">
+    <div class="" ng-show="showPostList" ng-hide="!showPostList" id="adminPostListDiv">
       <ul ng-repeat="posts in showPosts">
       <div class="blogpost">
         <li class="title"><h1>{{posts.title}}</h1></li>
         <li class="content"><p>{{posts.content}}</p></li>
         <li class="author"><a class="btn" ng-click="goToEdit(posts._id)">Edit postID {{posts._id}}</a></li>
         <li class="author"><h5>Av {{posts.author}}</h5></li>
-        <div ng-if="isAuthorized(currentUser.role)"><a class="btn" ng-click="deletePost(posts._id)">DELETE</a></div>
+        <div class ="delete" ng-if="isAuthorized(currentUser.role)"><a class="btn" ng-click="deletePost(posts._id)">DELETE</a></div>
       </div> 
     </ul>
     </div><!-- end #adminPostListDiv -->
