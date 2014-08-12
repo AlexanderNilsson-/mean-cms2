@@ -11,9 +11,9 @@ var app = angular.module('myApp', ["ngResource", "ngRoute", "ui.router"])
       //if (next.indexOf("urlToRestrict"))...
       if (next.indexOf("admin") > -1) {
         var authorizedRoles = AuthService.authorizedRoles;
-        
+
         if (!AuthService.isAuthorized(authorizedRoles)) {
-          // event.preventDefault();
+          event.preventDefault();
           if (AuthService.isAuthenticated()) {
             // user is not allowed
             $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
@@ -21,6 +21,7 @@ var app = angular.module('myApp', ["ngResource", "ngRoute", "ui.router"])
             // user is not logged in
             $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
           }
+          location.href="/";
         }
       }
     });
