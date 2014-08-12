@@ -13,9 +13,12 @@ app.controller('HomeController',function($scope, mongoService, $routeParams, $lo
     $scope.showPosts = postsResource.index();
   }
   
-  $scope.deletePost = function(postID){
+  $scope.deletePost = function(post_id){
     //enter id to be deleted as object :D
-    postsResource.destroy({"id": postID});
-    $scope.showPosts = postsResource.index();
+    var confirmDelete = confirm("Do you really want to delete this post?");
+    if (confirmDelete) {
+      postsResource.destroy({"id": post_id});
+      $scope.showPosts = postsResource.index();
+    }
   }
 });
