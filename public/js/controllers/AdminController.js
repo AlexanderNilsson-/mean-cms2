@@ -9,6 +9,13 @@ app.controller('AdminController', ['$scope', '$rootScope','mongoService', '$loca
   $scope.isEditView = $location.path().search("admin/edit") >= 0 ? true : false;
   $scope.showPostList = (!$scope.isCreateView && !$scope.isEditView) ? true : false;
 
+  if ($scope.isEditView) {
+    var editPostID = $routeParams.id;
+    postsResource.show({"id": editPostID}, function(res){
+      $rootScope.$broadcast("updatedPostData", res);
+    });
+  }
+
   $rootScope.$on("updatedPostData", function(event, next) {
     //when we recieve data for edit, re-check some important scope variables
     $scope.showPostList = (!$scope.isCreateView && !$scope.isEditView) ? true : false;
