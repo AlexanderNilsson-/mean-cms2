@@ -6,6 +6,7 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
   $rootScope.$on(AUTH_EVENTS.loginSuccess, updateScope);
   $rootScope.$on(AUTH_EVENTS.loginFailed, loginfail);
   $rootScope.$on(AUTH_EVENTS.loginFailed, updateScope);
+  $rootScope.$on("updatedPostData", updatePostDataScope);
 
   function updateScope(){
     $scope.currentUser = Session.getSession();
@@ -19,6 +20,17 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
       // Eriks masterpiece. 
       updateScope();
     };
+  }
+
+  function updatePostDataScope(event, next) {
+    var newPostData = {};
+    newPostData.author = next.author;
+    newPostData.title = next.title;
+    newPostData.content = next.content;
+    newPostData._id = next._id;
+
+    $rootScope.postData = newPostData;
+    updateScope();
   }
 
   function loginfail(){

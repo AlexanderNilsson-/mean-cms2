@@ -6,10 +6,35 @@
   </header>
   
   <div id="adminMainDiv">
-    <div id="adminEditorMainDiv">
-      
+    <div ng-if="isCreateView || isEditView">
+      <div id="adminEditorMainDiv">
+        <div ng-if="isCreateView">
+          <div id="createPostWrapper">
+          <h3>Create new post</h3>
+            <form>
+              <br>
+              <input type="text" name="title" id="title" ng-model="newPost.title" placeholder="Title">
+              <br>
+              <textarea rows="3" cols="70" ng-model="newPost.content" id="new-message" placeholder="Write your post here..."></textarea>
+              <button ng-click="insertNewMessage(newPost)">Send</button>
+            </form>
+          </div>
+        </div>
+      <div ng-if="isEditView">
+        <div id="updatePostWrapper">
+          <h3>Update post</h3>
+          <form>
+            <br>
+            <input type="text" name="title" id="title" ng-model="postData.title" ng-value="post_title" placeholder="Title">
+            <br>
+            <textarea rows="3" cols="70" ng-model="postData.content" id="new-message" placeholder="Write your post here...">{{postData.content}}</textarea>
+            <button ng-click="updateMessage(postData)">Send</button>
+          </form>
+        </div>
+      </div>
     </div> <!-- end #adminEditorMainDiv -->
-    <div class="" ng-show="showPostList" ng-hide="!showPostList" id="adminPostListDiv">
+  </div>
+    <div ng-show="showPostList" ng-hide="!showPostList" id="adminPostListDiv">
       <ul ng-repeat="posts in showPosts">
       <div class="blogpost">
         <li class="title"><h1>{{posts.title}}</h1></li>

@@ -5,8 +5,6 @@ app.controller('LoginController', function ($scope, $location, $rootScope, AUTH_
   $scope.login = function (credentials) {
     //AuthService deals with all authentication of users
     AuthService.login(credentials);
-    var success = Session.getSession();
-    console.log("login success", success);
   };
 
   $rootScope.$on(AUTH_EVENTS.loginSuccess, function (event, next) {
