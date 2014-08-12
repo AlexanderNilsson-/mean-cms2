@@ -36,6 +36,11 @@ var app = angular.module('myApp', ["ngResource", "ngRoute", "ui.router"])
         controller: 'HomeController'
       })
 
+      .when('/view/:id', {
+        templateUrl: 'views/home.html',
+        controller: 'HomeController'
+      })
+
       .when('/admin', {
         templateUrl: 'views/admin.html',
         controller: 'AdminController'

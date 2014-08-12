@@ -1,13 +1,21 @@
-app.controller('HomeController',['$scope', 'mongoService', '$location', '$routeParams', 'AuthService','USER_ROLES','Session', function($scope, mongoService, $routeParams, $location, AuthService, USER_ROLES, Session) {
+app.controller('HomeController',function($scope, mongoService, $routeParams, $location, AuthService, USER_ROLES, Session) {
   $scope.userRoles = USER_ROLES;
   $scope.currentUser = Session.getSession();
+
+  console.log("location", $location.path());
   
-  var postsResource = mongoService.posts();
-  $scope.showPosts = postsResource.index();
+  if ($location.path().search("view/") >= 0) {
+    var postsResource = mongoService.posts();
+    $scope.showPosts = [];
+    $scope.showPosts.push(postsResource.show({"id": $routeParams.id}));
+  } else {
+    var postsResource = mongoService.posts();
+    $scope.showPosts = postsResource.index();
+  }
   
   $scope.deletePost = function(postID){
     //enter id to be deleted as object :D
     postsResource.destroy({"id": postID});
     $scope.showPosts = postsResource.index();
   }
-}]);
+});
