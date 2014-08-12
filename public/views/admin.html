@@ -29,7 +29,7 @@
             <br>
             <input type="text" name="title" id="title" ng-model="postData.title" ng-value="post_title" placeholder="Title">
             <br>
-            <textarea rows="3" cols="70" ng-model="postData.content" id="new-message" placeholder="Write your post here...">{{postData.content}}</textarea>
+            <textarea class="messagebox" ng-model="postData.content" id="new-message" placeholder="Write your post here...">{{postData.content}}</textarea>
             <a class="btn" ng-click="updateMessage(postData)">Send</a><a class="btn" ng-href="/admin">Cancel</a>
           </form>
         </div>
