@@ -1,4 +1,4 @@
-app.controller('AdminController', ['$scope', '$rootScope','mongoService', '$location', '$routeParams','Session', 'AuthService', function($scope, $rootScope, mongoService, $location, $routeParams, Session, AuthService) {
+app.controller('AdminController', function($scope, $rootScope, mongoService, $location, $routeParams, Session, AuthService) {
   var postsResource = mongoService.posts();
   $scope.currentUser = Session.getSession();
   $scope.showPosts = postsResource.index();
@@ -66,10 +66,11 @@ app.controller('AdminController', ['$scope', '$rootScope','mongoService', '$loca
     if (confirmDelete) {
       postsResource.destroy({"id": post_id});
       $scope.showPosts = postsResource.index();
+      $location.path("/admin");
     }
   }
   
   //mongoService.create($scope.contact, success, failure);
   $scope.tagline = 'Nothing beats a pocket protector!';
   //$scope.findContact = mongoService.index();
-}]);
+});

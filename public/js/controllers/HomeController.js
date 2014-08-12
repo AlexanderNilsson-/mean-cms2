@@ -19,6 +19,7 @@ app.controller('HomeController',function($scope, mongoService, $routeParams, $lo
     if (confirmDelete) {
       postsResource.destroy({"id": post_id});
       $scope.showPosts = postsResource.index();
+      $location.path("/admin");
     }
   }
 });
