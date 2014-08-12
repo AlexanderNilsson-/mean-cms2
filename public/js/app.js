@@ -2,7 +2,7 @@
 
 // Declare app level module which depends on filters, and services
 var app = angular.module('myApp', ["ngResource", "ngRoute", "ui.router"])
-  .run(function ($rootScope, AUTH_EVENTS, AuthService, $location) {
+  .run(function ($rootScope, AUTH_EVENTS, AuthService, Session, $location) {
     //when a user requests a new url, check if they are allowed
     //to go there. For example: any url containing substr "admin"
     $rootScope.$on('$locationChangeStart', function (event, next) {
@@ -11,8 +11,9 @@ var app = angular.module('myApp', ["ngResource", "ngRoute", "ui.router"])
       //if (next.indexOf("urlToRestrict"))...
       if (next.indexOf("admin") > -1) {
         var authorizedRoles = AuthService.authorizedRoles;
+        
         if (!AuthService.isAuthorized(authorizedRoles)) {
-          event.preventDefault();
+          // event.preventDefault();
           if (AuthService.isAuthenticated()) {
             // user is not allowed
             $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
@@ -35,6 +36,21 @@ var app = angular.module('myApp', ["ngResource", "ngRoute", "ui.router"])
       })
 
       .when('/admin', {
+        templateUrl: 'views/admin.html',
+        controller: 'AdminController'
+      })
+
+      .when('/admin/create', {
+        templateUrl: 'views/admin.html',
+        controller: 'AdminController'
+      })
+
+      .when('/admin/edit', {
+        templateUrl: 'views/admin.html',
+        controller: 'AdminController'
+      })
+
+      .when('/admin/edit/:id', {
         templateUrl: 'views/admin.html',
         controller: 'AdminController'
       })

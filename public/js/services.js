@@ -50,20 +50,29 @@ app.factory("mongoService", function($resource, $http) {
   //login function
   AuthServant.login = function (credentials) {
     var usersResource = mongoService.users();
-    usersResource.show(credentials, function(res) {
+    var queryResult = usersResource.show(credentials, function(res) {
       //create a new session
-      Session.create(res);
+      var success = Session.create(res);
+      var authorizedRoles = AuthServant.authorizedRoles;
 
-      //broadcast your success to the world!
-      $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
+      if (success && (authorizedRoles.indexOf(success.role) >= 0)) {
+        //broadcast your success to the world!
+        $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
 
-      //then go to admin page
-      $location.path("/admin");
+        return success;
+      } else {
+        //broadcast your failure to the world!
+        $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
+        
+        return false;
+      }
     }, function(err) {
       //broadcast your failure
       $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
       return false;
     });
+
+    return queryResult;
   };
 
   // Create a new user
@@ -71,7 +80,6 @@ app.factory("mongoService", function($resource, $http) {
     var usersResource = mongoService.register();
     usersResource.create(credentials, function(res) {
       console.log("Created account", credentials);
-
     });
   };
 
@@ -83,6 +91,7 @@ app.factory("mongoService", function($resource, $http) {
     if (!angular.isArray(authorizedRoles)) {
       authorizedRoles = [authorizedRoles];
     }
+
     return (AuthServant.isAuthenticated() && authorizedRoles.indexOf(Session.userRole) !== -1);
   };
 
@@ -114,14 +123,15 @@ app.factory("mongoService", function($resource, $http) {
 .service('Session', function () {
   this.create = function (userData) {
     //create a session and store some needed info
-    console.log(userData);
     var startStamp = Date.now();
     userData.startStamp = startStamp;
     localStorage.setItem("Session", JSON.stringify(userData));
-    this.id = userData["_id"]
-    this._id = userData["_id"];
-    this.userRole = userData["userRole"];
-    this.getSession();
+    var sessionData = this.getSession();
+    this.id = sessionData["userid"]
+    this._id = sessionData["_id"];
+    this.userRole = sessionData["role"];
+
+    return sessionData;
   };
   this.destroy = function () {
     //destroy a session and remove info
@@ -133,12 +143,21 @@ app.factory("mongoService", function($resource, $http) {
   this.getSession = function() {
     //simple function for getting all session data if needed
     var sessionData = JSON.parse(localStorage.getItem("Session"));
-    //if no data, return nothing
-    if (!sessionData) { return; }
+
+    if (!sessionData || !sessionData.role) {
+      //if no data, return false
+      sessionData = {};
+      sessionData["id"] = false;
+      sessionData["_id"] = false;
+      sessionData["userRole"] = false;
+
+      return false;
+    }
     //else set variables again and move on!
-    this.id = sessionData["id"]
+    this.id = sessionData["userid"]
     this.userId = sessionData["_id"];
-    this.userRole = sessionData["userRole"];
+    this.userRole = sessionData["role"];
+
     return sessionData;
   }
 

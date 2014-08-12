@@ -16,7 +16,11 @@
     <script src="js/lib/angular/angular.js"></script>
     <script src="js/lib/angular/angular-resource.js"></script>
     <script src="js/lib/angular/angular-route.js"></script>
+    <script src="js/lib/angular/angular-cookies.js"></script>
+    <script src="js/lib/angular/angular-loader.js"></script>
+    <script src="js/lib/angular/angular-sanitize.js"></script>
     <script src="js/lib/angular/angular-ui-router.js"></script>
+    <script src="js/lib/jquery-1.11.1.min.js"></script>
     <script src="js/app.js"></script>
     <script src="js/services.js"></script>
     <script src="js/controllers/ApplicationController.js"></script>
@@ -38,9 +42,9 @@
       <div ng-if="!currentUser"><a class="btn" href="/login">Log in</a></div>
       <div ng-if="currentUser"><button ng-click="logout()">Log out</button></div>
       <div ng-if="currentUser"><a class="btn" href="/">Home</a></div>
-      <div ng-if="isAuthorized(userRoles.admin)"><a class="btn" href="/register">Register</a></div>
-      <div ng-if="isAuthorized(userRoles.admin)">You're an <a href="/admin">Admin.</a></div>
-      <div ng-if="isAuthorized(userRoles.editor)">You're an <a href="/admin">Editor.</a></div>
+      <div ng-if="!isAuthenticated()"><a class="btn" href="/register">Register</a></div>
+      <div ng-if="currentUser.role == 'admin'">You're an admin!<br/><a class="btn" href="/admin">Admin</a></div>
+      <div ng-if="currentUser.role == 'editor'">You're an editor!<br/><a class="btn" href="/admin">Admin</a></div>
     </div>
 
     <!-- ANGULAR DYNAMIC CONTENT -->

@@ -41,6 +41,11 @@ li {
 	display: block;
 	font-style: italic;
 }
+
+/*div#createPostWrapper, div#updatePostWrapper {
+	display: none;
+}*/
+
 .delete{
 	margin-bottom: 20px;
 }

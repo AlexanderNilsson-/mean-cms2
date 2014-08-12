@@ -8,7 +8,7 @@ db.once('open', function callback () {
 });
 
 
-var postSchema = mongoose.Schema({ author: String, title: String, content: String});
+var postSchema = mongoose.Schema({ author: String, title: String, content: String, timeStamp: Number});
 var Post = mongoose.model('Post', postSchema);
 
 var userSchema = mongoose.Schema({username: String, password: String, userRole: String});
@@ -38,7 +38,6 @@ exports.createUser = function(req, res) {
 
 exports.getBlogPosts = function(req, res) {
   Post.find({}, function(err, obj) {
-    console.log('bloggpost1', obj);
     res.json(obj);
   });
 };
@@ -51,13 +50,13 @@ exports.getBlogPost = function(req, res) {
 
 exports.createBlogPost = function(req, res) {
   var newPost = new Post (req.body);
-  console.log("createBlogPost");
+  console.log("createBlogPost", req.body);
   newPost.save();
   res.json(req.body);
 };
 
 exports.updateBlogPost = function(req, res) {
-  Post.findByIdAndUpdate(req.params.id, {
+  Post.findByIdAndUpdate(req.params.post, {
     $set: { author: req.body.author, content: req.body.content}
   }, { upsert: true },
   function(err, obj) {
