@@ -1,5 +1,7 @@
 app.controller('AdminController', function($scope, $rootScope, mongoService, $location, $routeParams, Session, AuthService) {
   var postsResource = mongoService.posts();
+  var tagsResource = mongoService.tags();
+  console.log("tagsResource.index ", tagsResource.index());
   $scope.currentUser = Session.getSession();
   $scope.showPosts = postsResource.index();
 

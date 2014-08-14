@@ -14,6 +14,22 @@ var Post = mongoose.model('Post', postSchema);
 var userSchema = mongoose.Schema({username: String, password: String, role: String});
 var User = mongoose.model('User', userSchema);
 
+var tagSchema = mongoose.Schema({
+  tag: String
+});
+
+var Tag = mongoose.model("Tag", tagSchema);
+
+exports.getTags = function(req, res) {
+  Tag.find({}, function(err, obj) {
+    console.log("Found tags: ", obj);
+    res.json(obj);
+  });
+}
+Tag.find().exec(function(err, obj) {
+  console.log("tag find ", obj);
+})
+
 //get user data
 exports.getUsers = function (req, res) {
   User.find({}, function(err, obj) {
