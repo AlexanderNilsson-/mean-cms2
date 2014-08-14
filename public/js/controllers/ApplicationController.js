@@ -8,6 +8,16 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
   $rootScope.$on(AUTH_EVENTS.loginFailed, updateScope);
   $rootScope.$on("updatedPostData", updatePostDataScope);
 
+  $rootScope.$on(AUTH_EVENTS.loginSuccess, function (event, next) {
+    console.log("Recieved Login", AuthService.foundAdmin);
+    updateScope();
+    $location.path("/admin");
+  });
+
+  $rootScope.$on(AUTH_EVENTS.loginFailed, function (event, next) {
+    $location.path("/login");
+  });
+
   function updateScope(){
     $scope.currentUser = Session.getSession();
     $scope.userRoles = USER_ROLES;

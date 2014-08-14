@@ -67,9 +67,23 @@ li {
 	font-style: italic;
 }
 
-/*div#createPostWrapper, div#updatePostWrapper {
-	display: none;
-}*/
+div.userMessage {
+  display: none;
+  border: 2px solid red;
+  padding: 10px;
+  margin: 5px 0px;
+  font-weight: 400;
+  color: red;
+  width: 250px;
+}
+
+div.userListing ul li {
+  display: block;
+  margin: 5px 0;
+}
+div.userListing ul li h5 {
+  display: inline;
+}
 
 .delete{
 	margin-bottom: 20px;

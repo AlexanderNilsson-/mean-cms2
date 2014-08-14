@@ -9,9 +9,9 @@ For login solution, heavily modified!
 To restrict additional pages from being accessed, see public/js/app.js line 8
 
 //CREATE USERS
-schema: mongoose.Schema({username: String, password: String, userid: Number, role: String});
+schema: mongoose.Schema({username: String, password: String, role: String});
 db collection: db.users
-insert: db.users.insert({username:"xxx", password: "xxx", userId:1, userRole:"admin"})
+insert: db.users.insert({username:"xxx", password: "xxx", role:"admin"})
 
 Only "bug" is that views dont update upon login,so you have to refresh the browser before the logout button shows up, not very angular :/
 

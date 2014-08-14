@@ -1,5 +1,7 @@
 app.controller('AdminController', function($scope, $rootScope, mongoService, $location, $routeParams, Session, AuthService) {
   var postsResource = mongoService.posts();
+  var tagsResource = mongoService.tags();
+  console.log("tagsResource.index ", tagsResource.index());
   $scope.currentUser = Session.getSession();
   $scope.showPosts = postsResource.index();
 
@@ -26,7 +28,7 @@ app.controller('AdminController', function($scope, $rootScope, mongoService, $lo
 
   $scope.create = function (credentials) {
     //AuthService deals with all authentication of users
-    credentials.userRole = document.getElementById("userRole").value
+    credentials.role = credentials.role.name;
     AuthService.create(credentials);
   }
 

@@ -14,13 +14,38 @@ var Post = mongoose.model('Post', postSchema);
 var userSchema = mongoose.Schema({username: String, password: String, role: String});
 var User = mongoose.model('User', userSchema);
 
+var tagSchema = mongoose.Schema({
+  tag: String
+});
+
+var Tag = mongoose.model("Tag", tagSchema);
+
+exports.getTags = function(req, res) {
+  Tag.find({}, function(err, obj) {
+    console.log("Found tags: ", obj);
+    res.json(obj);
+  });
+}
+Tag.find().exec(function(err, obj) {
+  console.log("tag find ", obj);
+})
+
 //get user data
 exports.getUsers = function (req, res) {
   User.find({}, function(err, obj) {
-    console.log("find all users", obj);
+    //always check that an admin user exists
+    var adminExists = false;
+    for(var i = 0; i < obj.length; i++) {
+      if (obj[i]["role"] == "admin") {
+        adminExists = true;
+      }
+    }
+    obj.push({"adminExists": adminExists});
+
     res.json(obj);
   });
 };
+
 exports.getUser = function(req, res) {
   // User.find({user_name: req.params.user_name, password: req.params.password}, function(err, obj) {
   User.findOne({username: req.params.username, password: req.params.password}, function(err, obj) {

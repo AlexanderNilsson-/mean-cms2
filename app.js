@@ -24,6 +24,8 @@ app.configure('production', function(){
 //get user details for login
 app.get("/api/users", api.getUsers);
 
+app.get("/api/tags", api.getTags);
+
 //this is how we "send" multiple params with REST :D
 app.get("/api/users/:username.:password", api.getUser);
 app.post('/api/users', api.createUser);
