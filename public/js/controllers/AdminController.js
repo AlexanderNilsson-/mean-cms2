@@ -52,7 +52,7 @@ app.controller('AdminController', function($scope, $rootScope, mongoService, $lo
   $scope.insertNewMessage = function(message) {
     var timeStamp = new Date().getTime();
     message.timeStamp = timeStamp;
-    message.tags = ["53ecba7fb3986c5a3ea22390"];
+    message.tags = ["53ecbf6426ef15fc1f0b2f3b"];
     message.author = $scope.currentUser.username;
     postsResource.create(message);
     jQuery("div#createPostDialog").remove();

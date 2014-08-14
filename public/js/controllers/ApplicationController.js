@@ -1,7 +1,7 @@
 app.controller('ApplicationController', function ($scope, $location, $rootScope, AUTH_EVENTS, USER_ROLES, AuthService, Session) {
   //application controller is the "root" level controller
   //currently used to keep user variables easily accessible
-
+  $scope.blogTitle = "The Blog Name";
   updateScope();
   $rootScope.$on(AUTH_EVENTS.loginSuccess, updateScope);
   $rootScope.$on(AUTH_EVENTS.loginFailed, loginfail);
