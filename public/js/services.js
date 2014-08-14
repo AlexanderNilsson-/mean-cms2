@@ -31,7 +31,7 @@ app.factory("mongoService", function($resource, $http) {
     return resource;
   };
   mongoServant.tags = function() {
-    var resource = $resource("/api/tags/:tag", { tag: "@tag" },
+    var resource = $resource("/api/tags/:id", { id: "@_id" },
       {
         'create':  { method: 'POST' },
         'index':   { method: 'GET', isArray: true },

@@ -8,7 +8,7 @@ db.once('open', function callback () {
 });
 
 
-var postSchema = mongoose.Schema({ author: String, title: String, content: String, timeStamp: Number});
+var postSchema = mongoose.Schema({ author: String, title: String, content: String, timeStamp: Number, tags:[{type:mongoose.Schema.Types.ObjectId, ref: 'Tag'}]});
 var Post = mongoose.model('Post', postSchema);
 
 var userSchema = mongoose.Schema({username: String, password: String, role: String});
@@ -26,9 +26,36 @@ exports.getTags = function(req, res) {
     res.json(obj);
   });
 }
-Tag.find().exec(function(err, obj) {
-  console.log("tag find ", obj);
-})
+
+exports.getTag = function(req, res) {
+  Tag.findOne({ _id: req.params.id }, function(err, obj) {
+    console.log("Found tag: ", obj);
+    res.json(obj);
+  });
+}
+
+exports.createTag = function(req, res) {
+  var newTag = new Tag (req.body);
+  console.log("createTag");
+  newTag.save();
+  res.json(req.body);
+};
+
+exports.updateTag = function(req, res) {
+  Tag.findByIdAndUpdate(req.params.id, {
+    $set: { tag: req.body.name }
+  }, { upsert: true },
+  function(err, obj) {
+    console.log("Updated tag", obj);
+    return res.json(true);
+  });
+};
+
+exports.deleteTag = function(req, res) {
+  Tag.remove({ _id: req.params.id }, function(err) {
+    res.json(true);
+  });
+};
 
 //get user data
 exports.getUsers = function (req, res) {
@@ -62,13 +89,13 @@ exports.createUser = function(req, res) {
 };
 
 exports.getBlogPosts = function(req, res) {
-  Post.find({}, function(err, obj) {
+  Post.find({}).populate("tags").exec(function(err, obj) {
     res.json(obj);
   });
 };
 
 exports.getBlogPost = function(req, res) {
-  Post.findOne({ _id: req.params.id }, function(err, obj) {
+  Post.findOne({ _id: req.params.id }).populate("tags").exec(function(err, obj) {
     res.json(obj);
   });
 };
