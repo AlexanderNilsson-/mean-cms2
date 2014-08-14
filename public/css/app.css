@@ -74,3 +74,13 @@ li {
 .delete{
 	margin-bottom: 20px;
 }
+
+.logo{
+	width: 60%;
+	height:150px;
+	border:2px dotted fuchsia;
+	margin:0 auto;
+}
+ul{
+	margin: 0;
+}
