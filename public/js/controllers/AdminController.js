@@ -1,7 +1,11 @@
 app.controller('AdminController', function($scope, $rootScope, mongoService, $location, $routeParams, Session, AuthService) {
   var postsResource = mongoService.posts();
   var tagsResource = mongoService.tags();
-  console.log("tagsResource.index ", tagsResource.index());
+
+  tagsResource.show({id:"53ecba7fb3986c5a3ea22390"}, function(res) {
+    console.log("tagsResource.show ", res);
+  });
+
   $scope.currentUser = Session.getSession();
   $scope.showPosts = postsResource.index();
 
@@ -48,6 +52,7 @@ app.controller('AdminController', function($scope, $rootScope, mongoService, $lo
   $scope.insertNewMessage = function(message) {
     var timeStamp = new Date().getTime();
     message.timeStamp = timeStamp;
+    message.tags = ["53ecba7fb3986c5a3ea22390"];
     message.author = $scope.currentUser.username;
     postsResource.create(message);
     jQuery("div#createPostDialog").remove();
