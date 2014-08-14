@@ -5,12 +5,19 @@
     <base href="/">
 
     <title>Starter Node and Angular</title>
-    <!--media queries-->
+    <!--media queries and viewport-->
     <script src="http.//css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="css/bootstrap.css"> <!-- bootstrap styles -->
+    <link rel="stylesheet" href="css/bootstrap.css"> 
+    <!-- bootstrap styles -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="css/app.css"> <!-- custom styles -->
+    <!--    bootstrap JS    -->
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="js/lib/bootstrap.js"></script>
 
 
 
@@ -39,6 +46,7 @@
 
   <body ng-controller="ApplicationController">
     <div class="logo"><h1>{{blogTitle}}</h1></div>
+    <a class="menuBtn" ng-click="showMenu()"><span class="glyphicon glyphicon-search"></span></a>
     <div class="menu">
       <div ng-if="currentUser">Welcome, {{ currentUser.username }}</div>
       <div ng-if="!currentUser"><a class="btn" href="/login">Log in</a></div>

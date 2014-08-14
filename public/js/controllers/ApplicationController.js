@@ -18,6 +18,11 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
     $location.path("/login");
   });
 
+  jQuery("div.menu").hide();
+  $scope.showMenu = function () {
+    jQuery("div.menu").toggle(200);
+  }
+  
   function updateScope(){
     $scope.currentUser = Session.getSession();
     $scope.userRoles = USER_ROLES;
