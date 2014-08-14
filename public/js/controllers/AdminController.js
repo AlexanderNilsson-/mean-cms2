@@ -26,7 +26,7 @@ app.controller('AdminController', function($scope, $rootScope, mongoService, $lo
 
   $scope.create = function (credentials) {
     //AuthService deals with all authentication of users
-    credentials.userRole = document.getElementById("userRole").value
+    credentials.role = credentials.role.name;
     AuthService.create(credentials);
   }
 

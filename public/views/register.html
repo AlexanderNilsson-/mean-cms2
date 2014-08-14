@@ -1,4 +1,5 @@
- <h3>Register new user</h3>
+ <h3 class="registerHeading">Register new user</h3>
+ <div class="userMessage">{{userMessage}}</div>
  <form name="registerForm"
         action="" target="sink" method="post"
         ng-submit="create(register)"
@@ -6,17 +7,21 @@
 
     <label for="username">Username:</label>
     <input type="text" id="username"
-           ng-model="register.username">
+           ng-model="register.username" required>
 
     <label for="password">Password:</label>
     <input type="password" id="password"
-           ng-model="register.password">
+           ng-model="register.password" required>
 
     <label for="userRole">Role:</label>
-    <select id="userRole" ng-model="register.role" value="role">
-        <option value="admin">Admin</option>
-        <option value="editor">Editor</option>
+    <select id="userRole" ng-options="role.name for role in userRoles" ng-model="register.role" value="role" required>
     </select>
 
     <button type="submit">Register</button>
   </form>
+  
+  <!-- <div class="userListing">
+    <ul ng-repeat="user in userList">
+        <li><h5>User name: </h5><em>{{user.username}}</em><br><h5>User role: </h5><em>{{user.role}}</em><br><h5>User id: </h5><em>{{user._id}}</em></li>
+    </ul>
+  </div> -->

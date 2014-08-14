@@ -17,10 +17,19 @@ var User = mongoose.model('User', userSchema);
 //get user data
 exports.getUsers = function (req, res) {
   User.find({}, function(err, obj) {
-    console.log("find all users", obj);
+    //always check that an admin user exists
+    var adminExists = false;
+    for(var i = 0; i < obj.length; i++) {
+      if (obj[i]["role"] == "admin") {
+        adminExists = true;
+      }
+    }
+    obj.push({"adminExists": adminExists});
+
     res.json(obj);
   });
 };
+
 exports.getUser = function(req, res) {
   // User.find({user_name: req.params.user_name, password: req.params.password}, function(err, obj) {
   User.findOne({username: req.params.username, password: req.params.password}, function(err, obj) {

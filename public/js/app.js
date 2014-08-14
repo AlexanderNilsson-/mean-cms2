@@ -6,10 +6,13 @@ var app = angular.module('myApp', ["ngResource", "ngRoute", "ui.router"])
     //when a user requests a new url, check if they are allowed
     //to go there. For example: any url containing substr "admin"
     $rootScope.$on('$locationChangeStart', function (event, next) {
+      AuthService.adminExists();
+      var adminExists = AuthService.foundAdmin;
+      console.log("locationChangeStart adminExists", adminExists);
       //if you want to prevent more pages from being accessed,
       //this is where you do it. 
-      //if (next.indexOf("urlToRestrict"))...
-      if (next.indexOf("admin") > -1) {
+      //if (next.indexOf("urlToRestrict"))..
+      if (next.indexOf("admin") > -1 && adminExists) {
         var authorizedRoles = AuthService.authorizedRoles;
 
         if (!AuthService.isAuthorized(authorizedRoles)) {
@@ -23,8 +26,24 @@ var app = angular.module('myApp', ["ngResource", "ngRoute", "ui.router"])
           }
           location.href = "/";
         }
+      } else if (!adminExists) {
+        if ((next.indexOf("admin") > -1 && next.indexOf("admin/register") < 0) || next.indexOf("admin/register") < 0) {
+          var authorizedRoles = AuthService.authorizedRoles;
+          event.preventDefault();
+          if (!AuthService.isAuthorized(authorizedRoles)) {
+            if (AuthService.isAuthenticated()) {
+              // user is not allowed
+              $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
+            } else {
+              // user is not logged in
+              $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
+            }
+            location.href = "/admin/register";
+          }
+        }
       }
     });
+
   })
   .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
@@ -63,7 +82,7 @@ var app = angular.module('myApp', ["ngResource", "ngRoute", "ui.router"])
 
       .when('/admin/register', {
         templateUrl: 'views/register.html',
-        controller: 'AdminController'
+        controller: 'LoginController'
       })
 
       .when('/posts/:id', {

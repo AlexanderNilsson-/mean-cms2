@@ -34,7 +34,8 @@ app.factory("mongoService", function($resource, $http) {
   mongoServant.register = function() {
     var resource = $resource("/api/users/", { },
       {
-        'create':  { method: 'POST' }
+        'create':  { method: 'POST' },
+        'index':   { method: 'GET', isArray: true }
       }
     );
     return resource;
@@ -43,34 +44,27 @@ app.factory("mongoService", function($resource, $http) {
   return mongoServant;
 })
 
-
-
 .factory('AuthService', function (Session, USER_ROLES, mongoService, $rootScope, AUTH_EVENTS, $location) {
   var AuthServant = {};
   //login function
   AuthServant.login = function (credentials) {
     var usersResource = mongoService.users();
-    var queryResult = {};
-    queryResult = usersResource.show(credentials, function(res) {
+    usersResource.show(credentials, function(res) {
       //create a new session
-        var success = Session.create(queryResult);
+        var success = Session.create(res);
         var authorizedRoles = AuthServant.authorizedRoles;
 
         if (success && (authorizedRoles.indexOf(success.role) >= 0)) {
+          AuthServant.adminExists();
           //broadcast your success to the world!
           $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-
-          return success;
         } else {
           //broadcast your failure to the world!
           $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
-          
-          return false;
         }
     }, function(err) {
       //broadcast your failure
       $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
-      return false;
     });
   };
 
@@ -78,7 +72,10 @@ app.factory("mongoService", function($resource, $http) {
   AuthServant.create = function (credentials) {
     var usersResource = mongoService.register();
     usersResource.create(credentials, function(res) {
-      console.log("Created account", credentials);
+      console.log("created new user!", credentials);
+      if (!Session.getSession()) {
+        AuthServant.login(credentials)
+      }
     });
   };
 
@@ -94,8 +91,35 @@ app.factory("mongoService", function($resource, $http) {
     return (AuthServant.isAuthenticated() && authorizedRoles.indexOf(Session.role) !== -1);
   };
 
+  AuthServant.adminExists = function() {
+    var adminExists = false;
+    var registerResource = mongoService.register();
+    var foundAdmin = jQuery.ajax({
+      url: "/api/users/",
+      data: {},
+      dataType: "json",
+      async: false,
+      success: function(data) {
+        for(var i = 0; i < data.length; i++) {
+          for(var j in data[i]) {
+            if (j == "adminExists") {
+              adminExists = data[i][j];
+            }
+          }
+        }
+        return adminExists;
+      }
+    });
+
+    AuthServant.foundAdmin = adminExists;
+
+    return adminExists;
+  };
+
   //we should probably update these
   AuthServant.authorizedRoles = [USER_ROLES.admin, USER_ROLES.editor];
+
+  AuthServant.adminExists();
 
   return AuthServant;
 })
