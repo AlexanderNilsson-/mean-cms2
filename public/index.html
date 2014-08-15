@@ -44,7 +44,7 @@
 
   <body ng-controller="ApplicationController">
     <div class="logo"><h1>{{blogTitle}}</h1></div>
-    <a class="menuBtn" ng-click="showMenu()"><span class="glyphicon glyphicon-search"></span></a>
+    <a class="menuBtn" ng-click="showMenu()"><span class="glyphicon glyphicon-th-list"></span></a>
     <div class="menu">
       <div ng-if="currentUser">Welcome, {{ currentUser.username }}</div>
       <div ng-if="!currentUser"><a class="btn btn-default" href="/login">Log in</a></div>

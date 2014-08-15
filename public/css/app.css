@@ -31,7 +31,7 @@ header {
 }
 
 .btn {
-  min-width: 70px;
+  min-width: 90px;
 }
 
 .menu {
@@ -131,7 +131,6 @@ ul{
 	margin: 0;
 }
 .menuBtn{
-	border: 2px dotted black;
 	font-size: 30px;
 	height: 35px;
 	width: 35px;
