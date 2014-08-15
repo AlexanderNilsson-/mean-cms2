@@ -21,15 +21,14 @@ app.configure('production', function(){
   app.use(express.errorHandler());
 });
 
-//get user details for login
-app.get("/api/users", api.getUsers);
-
 app.get("/api/tags", api.getTags);
 app.post("/api/tags", api.createTag);
 app.get("/api/tags/:id", api.getTag);
 app.put("/api/tags/:id", api.updateTag);
 app.delete("/api/tags/:id", api.deleteTag);
 
+//get user details for login
+app.get("/api/users", api.getUsers);
 //this is how we "send" multiple params with REST :D
 app.get("/api/users/:username.:password", api.getUser);
 app.post('/api/users', api.createUser);

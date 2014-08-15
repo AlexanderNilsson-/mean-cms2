@@ -27,7 +27,7 @@ var app = angular.module('myApp', ["ngResource", "ngRoute", "ui.router"])
           location.href = "/";
         }
       } else if (!adminExists) {
-        if ((next.indexOf("admin") > -1 && next.indexOf("admin/register") < 0) || next.indexOf("admin/register") < 0) {
+        if ((next.indexOf("admin") > -1 && next.indexOf("admin/users") < 0) || next.indexOf("admin/users") < 0) {
           var authorizedRoles = AuthService.authorizedRoles;
           event.preventDefault();
           if (!AuthService.isAuthorized(authorizedRoles)) {
@@ -38,7 +38,7 @@ var app = angular.module('myApp', ["ngResource", "ngRoute", "ui.router"])
               // user is not logged in
               $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
             }
-            location.href = "/admin/register";
+            location.href = "/admin/users";
           }
         }
       }
@@ -80,8 +80,8 @@ var app = angular.module('myApp', ["ngResource", "ngRoute", "ui.router"])
         controller: 'AdminController'
       })
 
-      .when('/admin/register', {
-        templateUrl: 'views/register.html',
+      .when('/admin/users', {
+        templateUrl: 'views/users.html',
         controller: 'LoginController'
       })
 

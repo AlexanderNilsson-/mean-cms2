@@ -59,7 +59,7 @@ exports.deleteTag = function(req, res) {
 
 //get user data
 exports.getUsers = function (req, res) {
-  User.find({}, function(err, obj) {
+  User.find(function(err, obj) {
     //always check that an admin user exists
     var adminExists = false;
     for(var i = 0; i < obj.length; i++) {
