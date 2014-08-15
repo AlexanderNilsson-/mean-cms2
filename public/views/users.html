@@ -1,29 +1,65 @@
+
 <div class="main">
- <h3 class="registerHeading">Register new user</h3>
- <div class="userMessage">{{userMessage}}</div>
- <form name="registerForm"
-        action="" target="sink" method="post"
-        ng-submit="create(register)"
-        novalidate form-autofill-fix>
 
-    <label for="username">Username:</label>
-    <input type="text" id="username"
-           ng-model="register.username" required>
+  <a ng-if="currentUser.role == 'admin'" class="btn btn-primary" ng-click="goToEdit()">Create new user</a>
+  <div ng-if="isCreateView || isEditView">
+   <h3 class="registerHeading">{{registerHeading}}</h3>
+   <div class="userMessage">{{userMessage}}</div>
+   <div ng-if="isCreateView">
+     <form name="registerForm"
+            action="" target="sink" method="post"
+            ng-submit="create(register)"
+            novalidate form-autofill-fix>
 
-    <label for="password">Password:</label>
-    <input type="password" id="password"
-           ng-model="register.password" required>
+        <label for="username">Username:</label>
+        <input type="text" id="username"
+               ng-model="register.username" required>
 
-    <label for="userRole">Role:</label>
-    <select id="userRole" ng-options="role.name for role in userRoles" ng-model="register.role" value="role" required>
-    </select>
+        <label for="password">Password:</label>
+        <input type="password" id="password"
+               ng-model="register.password" required>
 
-    <button type="submit">Register</button>
-  </form>
-  
-  <!-- <div class="userListing">
-    <ul ng-repeat="user in userList">
-        <li><h5>User name: </h5><em>{{user.username}}</em><br><h5>User role: </h5><em>{{user.role}}</em><br><h5>User id: </h5><em>{{user._id}}</em></li>
-    </ul>
-  </div> -->
+        <label for="userRole">Role:</label>
+        <select id="userRole" ng-options="role.name for role in userRoles" ng-model="register.role" value="role" required>
+        </select>
+
+        <button class="btn btn-default" type="submit">Save</button>
+      </form>
+    </div>
+    <div ng-if="isEditView">
+      <form name="registerForm"
+            action="" target="sink" method="post"
+            ng-submit="updateUser(userData)"
+            novalidate form-autofill-fix>
+
+        <label for="username">Username:</label>
+        <input type="text" id="username"
+               ng-model="userData.username" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password"
+               ng-model="userData.password" required>
+
+        <label for="userRole">Role:</label>
+        <select id="userRole" ng-options="role.name for role in userRoles" ng-model="userData.role" value="role" required>
+        </select>
+
+        <button class="btn btn-default" type="submit">Update</button>
+      </form>
+    </div>
+  </div>
+
+  <div ng-if="currentUser.role == 'admin'">
+    <div class="userListing">
+      <ul ng-repeat="user in userList">
+        <div ng-if="user.username">
+          <div class="userListItem">
+            <li><h5>User name: </h5><em>{{user.username}}</em><br><h5>User role: </h5><em>{{user.role}}</em><br><h5>User id: </h5><em>{{user._id}}</em></li>
+            <li class="edit"><a class="btn btn-default" ng-click="goToEdit(user._id)">Edit</a></li>
+            <li class ="delete" ng-if="isAuthorized(currentUser.role)"><a class="btn btn-default" ng-click="deleteUser(user._id)">Delete</a></li>
+          </div>
+        </div>
+      </ul>
+    </div>
+  </div>
 </div>

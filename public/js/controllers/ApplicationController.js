@@ -7,6 +7,8 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
   $rootScope.$on(AUTH_EVENTS.loginFailed, loginfail);
   $rootScope.$on(AUTH_EVENTS.loginFailed, updateScope);
   $rootScope.$on("updatedPostData", updatePostDataScope);
+  $rootScope.$on("updatedUserData", updateUserDataScope);
+  $rootScope.$on("currentSessionDataUpdated", updateScope);
 
   $rootScope.$on(AUTH_EVENTS.loginSuccess, function (event, next) {
     console.log("Recieved Login", AuthService.foundAdmin);
@@ -51,6 +53,11 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
     newPostData._id = next._id;
 
     $rootScope.postData = newPostData;
+    updateScope();
+  }
+
+  function updateUserDataScope(event, next) {
+    $rootScope.userData = next;
     updateScope();
   }
 

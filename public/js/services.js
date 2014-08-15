@@ -19,7 +19,7 @@ app.factory("mongoService", function($resource, $http) {
     return resource;
   };
   mongoServant.users = function() {
-    var resource = $resource("/api/users/:username.:password", { username: "@username", password: "$password"},
+    var resource = $resource("/api/users/:id", { id: "@_id"},
       {
         'create':  { method: 'POST' },
         'index':   { method: 'GET', isArray: true },
@@ -61,23 +61,47 @@ app.factory("mongoService", function($resource, $http) {
   //login function
   AuthServant.login = function (credentials) {
     var usersResource = mongoService.users();
-    usersResource.show(credentials, function(res) {
-      //create a new session
-        var success = Session.create(res);
-        var authorizedRoles = AuthServant.authorizedRoles;
+    var allUsers = usersResource.index(function(res) {
+      for (var i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].username === credentials.username && allUsers[i].password === credentials.password) {
+          usersResource.show({"id": allUsers[i]._id}, function(res) {
+            //create a new session
+              var success = Session.create(res);
+              var authorizedRoles = AuthServant.authorizedRoles;
 
-        if (success && (authorizedRoles.indexOf(success.role) >= 0)) {
-          AuthServant.adminExists();
-          //broadcast your success to the world!
-          $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-        } else {
-          //broadcast your failure to the world!
-          $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
+              if (success && (authorizedRoles.indexOf(success.role) >= 0)) {
+                AuthServant.adminExists();
+                //broadcast your success to the world!
+                $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
+              } else {
+                //broadcast your failure to the world!
+                $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
+              }
+          }, function(err) {
+            //broadcast your failure
+            $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
+          });
         }
-    }, function(err) {
-      //broadcast your failure
-      $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
+      }
     });
+
+    // usersResource.show(credentials, function(res) {
+    //   //create a new session
+    //     var success = Session.create(res);
+    //     var authorizedRoles = AuthServant.authorizedRoles;
+
+    //     if (success && (authorizedRoles.indexOf(success.role) >= 0)) {
+    //       AuthServant.adminExists();
+    //       //broadcast your success to the world!
+    //       $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
+    //     } else {
+    //       //broadcast your failure to the world!
+    //       $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
+    //     }
+    // }, function(err) {
+    //   //broadcast your failure
+    //   $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
+    // });
   };
 
   // Create a new user
@@ -171,6 +195,16 @@ app.factory("mongoService", function($resource, $http) {
 
     return sessionData;
   };
+
+  this.updateSession = function(userData) {
+    var currentSessionData = me.getSession();
+    currentSessionData.username = userData.username;
+    currentSessionData.role = userData.role;
+    currentSessionData._id = userData._id;
+    localStorage.setItem("Session", JSON.stringify(currentSessionData));
+    
+    me.getSession();
+  }
 
   this.destroy = function () {
     //destroy a session and remove info

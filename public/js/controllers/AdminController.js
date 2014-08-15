@@ -55,14 +55,12 @@ app.controller('AdminController', function($scope, $rootScope, mongoService, $lo
     message.tags = ["53ecbf6426ef15fc1f0b2f3b"];
     message.author = $scope.currentUser.username;
     postsResource.create(message);
-    jQuery("div#createPostDialog").remove();
     alert("Your message has been posted");
     $location.path("/");
   }
 
   $scope.updateMessage = function(message) {
     postsResource.update(message);
-    jQuery("div#updatePostDialog").remove();
     $location.path("/admin")
     $scope.postData = null;
   }

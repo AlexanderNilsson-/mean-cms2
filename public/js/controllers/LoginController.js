@@ -1,4 +1,8 @@
-app.controller('LoginController', function ($scope, $location, $rootScope, AUTH_EVENTS, USER_ROLES, AuthService, mongoService, Session) {
+app.controller('LoginController', function ($scope, $location, $rootScope, $routeParams, AUTH_EVENTS, USER_ROLES, AuthService, mongoService, Session) {
+  $scope.isCreateView = $location.path().search("admin/users/create") >= 0 ? true : false;
+  $scope.isEditView = $location.path().search("admin/users/edit") >= 0 ? true : false;
+  var userResource = mongoService.users();
+
   var userRoles = [];
   for(var i in USER_ROLES) {
     if (USER_ROLES[i] != "*") {
@@ -6,19 +10,54 @@ app.controller('LoginController', function ($scope, $location, $rootScope, AUTH_
     }
   }
   $scope.register = {};
+  $scope.registerHeading = "Register new user";    
   $scope.tagline = 'To the moon and back!';
-  $scope.userList = mongoService.register().index();
+  $scope.userList = userResource.index();
   $scope.userRoles = userRoles;
   $scope.userMessage = "";
 
+  if ($scope.isEditView) {
+    $scope.registerHeading = "Update user details";
+    var editUserID = $routeParams.id;
+    console.log("editUserID: ", editUserID);
+    userResource.show({"id": editUserID}, function(res){
+      $rootScope.$broadcast("updatedUserData", res);
+    });
+  }
+
+  $rootScope.$on("updatedUserData", function(event, next) {
+    //when we recieve data for edit, re-check some important scope variables
+    $scope.isCreateView = $location.path().search("admin/users/create") >= 0 ? true : false;
+    $scope.isEditView = $location.path().search("admin/users/edit") >= 0 ? true : false;
+    $scope.userData = $rootScope.userData;
+    for (var i in $scope.userRoles) {
+      if ($scope.userRoles[i].name == $scope.userData.role) {
+        $scope.userData.role = $scope.userRoles[i];
+        console.log("userData role", $scope.userData.role);
+      }
+    }
+
+    console.log("recieved userData", $scope.userData);
+    // $scope.userData = userData;
+  });
+
   //if no admin is created, allow user to create one.
   if (!AuthService.foundAdmin) {
-    console.log("foundAdmin", AuthService.foundAdmin);
+    console.log("!foundAdmin", AuthService.foundAdmin);
     jQuery("div.userMessage").show();
     $scope.userMessage = "No admin has been created for this CMS, please create one now!";
     $scope.userRoles = [{name: "admin", selected: "selected"}];
     $scope.register.role = $scope.userRoles[0];
-    jQuery("h3.registerHeading").text("Create new admin user");
+    $scope.registerHeading = "Create new admin user";  
+  }
+
+  $scope.goToEdit = function(user_id) {
+    //function that goes to /create or /edit/:id
+    if (user_id) {
+      $location.path("/admin/users/edit/"+user_id);
+    } else {
+      $location.path("/admin/users/create");
+    }
   }
 
   //our login function
@@ -38,8 +77,31 @@ app.controller('LoginController', function ($scope, $location, $rootScope, AUTH_
       credentials.role = credentials.role.name;
       AuthService.create(credentials);
       if (Session.getSession()) {
-        $location.path("/admin/register");
+        $location.path("/admin/users");
       }
     }
   };
+
+  $scope.updateUser = function(userData) {
+    userData.role = userData.role.name;
+    userResource.update(userData);
+    var currentSessionData = Session.getSession();
+    if (currentSessionData._id === userData._id) {
+      Session.updateSession(userData);
+      $rootScope.$broadcast("currentSessionDataUpdated");
+    }
+    console.log("updateUser userData: ", userData);
+    $location.path("/admin/users");
+    $scope.userData = null;
+  }
+
+  $scope.deleteUser = function(user_id){
+    //enter id to be deleted as object :D
+    var confirmDelete = confirm("Do you really want to delete this user?");
+    if (confirmDelete) {
+      userResource.destroy({"id": user_id});
+      $scope.userList = userResource.index();
+      $location.path("/admin/users");
+    }
+  }
 });

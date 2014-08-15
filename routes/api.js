@@ -75,10 +75,18 @@ exports.getUsers = function (req, res) {
 
 exports.getUser = function(req, res) {
   // User.find({user_name: req.params.user_name, password: req.params.password}, function(err, obj) {
-  User.findOne({username: req.params.username, password: req.params.password}, function(err, obj) {
-    console.log("Login Response: ", obj);
-    res.json(obj);
-  });
+  // if (req.params.username && req.params.password) {
+
+  //   User.findOne({username: req.params.username, password: req.params.password}, function(err, obj) {
+  //     console.log("Login Response: ", obj);
+  //     res.json(obj);
+  //   });
+  // } else if (req.params.id) {
+    User.findOne({_id: req.params.id}, function(err, obj) {
+      console.log("getUser: ", obj);
+      res.json(obj);
+    });
+  // }
 };
 
 exports.createUser = function(req, res) {
@@ -86,6 +94,22 @@ exports.createUser = function(req, res) {
   console.log("createUser");
   newUser.save();
   res.json(req.body);
+};
+
+exports.updateUser = function(req, res) {
+  User.findByIdAndUpdate(req.params.id, {
+    $set: { username: req.body.username,password: req.body.password, role: req.body.role}
+  }, { upsert: true },
+  function(err, obj) {
+    console.log("Updated user", obj);
+    return res.json(true);
+  });
+};
+
+exports.deleteUser = function(req, res) {
+  User.remove({ _id: req.params.id }, function(err) {
+    res.json(true);
+  });
 };
 
 exports.getBlogPosts = function(req, res) {

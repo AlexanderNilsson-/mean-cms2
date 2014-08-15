@@ -8,7 +8,6 @@ var app = angular.module('myApp', ["ngResource", "ngRoute", "ui.router"])
     $rootScope.$on('$locationChangeStart', function (event, next) {
       AuthService.adminExists();
       var adminExists = AuthService.foundAdmin;
-      console.log("locationChangeStart adminExists", adminExists);
       //if you want to prevent more pages from being accessed,
       //this is where you do it. 
       //if (next.indexOf("urlToRestrict"))..
@@ -27,7 +26,7 @@ var app = angular.module('myApp', ["ngResource", "ngRoute", "ui.router"])
           location.href = "/";
         }
       } else if (!adminExists) {
-        if ((next.indexOf("admin") > -1 && next.indexOf("admin/users") < 0) || next.indexOf("admin/users") < 0) {
+        if ((next.indexOf("admin") > -1 && next.indexOf("admin/users/create") < 0) || next.indexOf("admin/users/create") < 0) {
           var authorizedRoles = AuthService.authorizedRoles;
           event.preventDefault();
           if (!AuthService.isAuthorized(authorizedRoles)) {
@@ -38,7 +37,7 @@ var app = angular.module('myApp', ["ngResource", "ngRoute", "ui.router"])
               // user is not logged in
               $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
             }
-            location.href = "/admin/users";
+            location.href = "/admin/users/create";
           }
         }
       }
@@ -70,17 +69,27 @@ var app = angular.module('myApp', ["ngResource", "ngRoute", "ui.router"])
         controller: 'AdminController'
       })
 
-      .when('/admin/edit', {
-        templateUrl: 'views/admin.html',
-        controller: 'AdminController'
-      })
-
       .when('/admin/edit/:id', {
         templateUrl: 'views/admin.html',
         controller: 'AdminController'
       })
 
       .when('/admin/users', {
+        templateUrl: 'views/users.html',
+        controller: 'LoginController'
+      })
+
+      .when('/admin/users/create', {
+        templateUrl: 'views/users.html',
+        controller: 'LoginController'
+      })
+
+      .when('/admin/users/edit/:id', {
+        templateUrl: 'views/users.html',
+        controller: 'LoginController'
+      })
+
+      .when('/admin/users/view/:id', {
         templateUrl: 'views/users.html',
         controller: 'LoginController'
       })
