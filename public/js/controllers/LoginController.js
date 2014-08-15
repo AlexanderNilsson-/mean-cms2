@@ -14,7 +14,7 @@ app.controller('LoginController', function ($scope, $location, $rootScope, $rout
   $scope.tagline = 'To the moon and back!';
   $scope.userList = userResource.index();
   $scope.userRoles = userRoles;
-  $scope.userMessage = "";
+  $scope.userMessage = false;
 
   if ($scope.isEditView) {
     $scope.registerHeading = "Update user details";
@@ -41,7 +41,6 @@ app.controller('LoginController', function ($scope, $location, $rootScope, $rout
   //if no admin is created, allow user to create one.
   if (!AuthService.foundAdmin) {
     console.log("!foundAdmin", AuthService.foundAdmin);
-    jQuery("div.userMessage").show();
     $scope.userMessage = "No admin has been created for this CMS, please create one now!";
     $scope.userRoles = [{name: "admin", selected: "selected"}];
     $scope.register.role = $scope.userRoles[0];
@@ -67,7 +66,6 @@ app.controller('LoginController', function ($scope, $location, $rootScope, $rout
     //AuthService deals with all authentication of users
     console.log("login create: ", !credentials.username || !credentials.password || !credentials.role)
     if (!credentials.username || !credentials.password || !credentials.role) {
-      jQuery("div.userMessage").show();
       $scope.userMessage = "Please fill in all the fields!";
     } else {
       jQuery("div.userMessage").hide();
@@ -96,9 +94,17 @@ app.controller('LoginController', function ($scope, $location, $rootScope, $rout
     //enter id to be deleted as object :D
     var confirmDelete = confirm("Do you really want to delete this user?");
     if (confirmDelete) {
-      userResource.destroy({"id": user_id});
-      $scope.userList = userResource.index();
-      $location.path("/admin/users");
+      var confirmDeleteCurrentUser = confirm("Deleting your currently logged in user will log you out, do you wish to proceed?");
+      var currentSessionData = Session.getSession();
+      if (confirmDeleteCurrentUser) {
+        if (currentSessionData._id === user_id) {
+          AuthService.logout();
+          location.href="/";
+        }
+        userResource.destroy({"id": user_id});
+        $scope.userList = userResource.index();
+        $location.path("/admin/users");
+      }
     }
   }
 });

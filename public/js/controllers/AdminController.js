@@ -1,6 +1,8 @@
 app.controller('AdminController', function($scope, $rootScope, mongoService, $location, $routeParams, Session, AuthService) {
   var postsResource = mongoService.posts();
   var tagsResource = mongoService.tags();
+  $scope.newPost = {};
+  $scope.newPost.tags = [];
 
   tagsResource.show({id:"53ecba7fb3986c5a3ea22390"}, function(res) {
     console.log("tagsResource.show ", res);
@@ -47,23 +49,53 @@ app.controller('AdminController', function($scope, $rootScope, mongoService, $lo
     } else {
       $location.path("/admin/create");
     }
-  }
+  };
 
-  $scope.insertNewMessage = function(message) {
+  var allcreatedtags = [];
+
+  $scope.insertNewMessage = function(message, tags) {
+    console.log(tags);
+    tags = tags.split(" ");
+    console.log(tags);
     var timeStamp = new Date().getTime();
     message.timeStamp = timeStamp;
-    message.tags = ["53ecbf6426ef15fc1f0b2f3b"];
     message.author = $scope.currentUser.username;
-    postsResource.create(message);
-    alert("Your message has been posted");
-    $location.path("/");
-  }
+    for (var i = 0; i < tags.length; i++) {
+      tagsResource.create({"tag":tags[i]}, function(res) {
+
+        res.amountToCreate = tags.length;
+
+        $rootScope.$broadcast("newTagCreated", res);
+      });
+    }
+    
+    $rootScope.$on("newTagCreated", function(event, next) {
+      console.log("newTagCreated", next._id);
+      allcreatedtags.push(next._id);
+      //console.log("newTagCreated id", next._id);
+      //$scope.message.tags.push(next._id);
+      if (allcreatedtags.length == next.amountToCreate) {
+        console.log("completedOperation allcreatedtags: ", allcreatedtags);
+
+        //post save function
+        message.tags = allcreatedtags;
+        console.log("MESSAGE", message);
+        postsResource.create(message);
+        jQuery("div#createPostDialog").remove();
+        alert("Your message has been posted");
+        $location.path("/");
+      }
+    })
+
+
+  };
 
   $scope.updateMessage = function(message) {
     postsResource.update(message);
-    $location.path("/admin")
+    jQuery("div#updatePostDialog").remove();
+    $location.path("/admin");
     $scope.postData = null;
-  }
+  };
   
   $scope.deletePost = function(post_id){
     //enter id to be deleted as object :D
@@ -73,7 +105,7 @@ app.controller('AdminController', function($scope, $rootScope, mongoService, $lo
       $scope.showPosts = postsResource.index();
       $location.path("/admin");
     }
-  }
+  };
   
   //mongoService.create($scope.contact, success, failure);
   $scope.tagline = 'Nothing beats a pocket protector!';

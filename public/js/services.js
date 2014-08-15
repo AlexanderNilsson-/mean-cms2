@@ -84,24 +84,11 @@ app.factory("mongoService", function($resource, $http) {
         }
       }
     });
+  };
 
-    // usersResource.show(credentials, function(res) {
-    //   //create a new session
-    //     var success = Session.create(res);
-    //     var authorizedRoles = AuthServant.authorizedRoles;
-
-    //     if (success && (authorizedRoles.indexOf(success.role) >= 0)) {
-    //       AuthServant.adminExists();
-    //       //broadcast your success to the world!
-    //       $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-    //     } else {
-    //       //broadcast your failure to the world!
-    //       $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
-    //     }
-    // }, function(err) {
-    //   //broadcast your failure
-    //   $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
-    // });
+  AuthServant.logout = function () {
+    Session.destroy();
+    $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
   };
 
   // Create a new user

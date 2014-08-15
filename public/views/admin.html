@@ -17,7 +17,9 @@
               <br>
 
               <textarea class="messagebox" ng-model="newPost.content" id="new-message" placeholder="Write your post here..."></textarea>
-              <a class="btn btn-default"  ng-click="insertNewMessage(newPost)">Send</a><a class="btn btn-default" ng-href="/admin">Cancel</a>
+              <br>
+              <textarea class="tagbox" ng-model="tags" placeholder="Tags"></textarea>
+              <a class="btn btn-default"  ng-click="insertNewMessage(newPost, tags)">Send</a><a class="btn btn-default" ng-href="/admin">Cancel</a>
 
             </form>
           </div>

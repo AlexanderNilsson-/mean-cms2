@@ -10,7 +10,15 @@
               action="" target="sink" method="post"
               ng-submit="create(register)"
               novalidate form-autofill-fix>
-
+  <a ng-if="currentUser.role == 'admin'" class="btn btn-primary" ng-click="goToEdit()">Create new user</a>
+  <div ng-if="isCreateView || isEditView">
+   <h3 class="registerHeading">{{registerHeading}}</h3>
+   <div ng-if="userMessage" class="userMessage">{{userMessage}}</div>
+   <div ng-if="isCreateView">
+     <form name="registerForm"
+            action="" target="sink" method="post"
+            ng-submit="create(register)"
+            novalidate form-autofill-fix>
           <label for="username">Username:</label>
           <input type="text" id="username"
                  ng-model="register.username" required>
@@ -49,6 +57,9 @@
       </div>
       <a class="btn btn-default" ng-href="/admin/users">Cancel</a>
     </div>
+    <a ng-if="currentUser.role == 'admin'" class="btn btn-default" ng-href="/admin/users">Cancel</a>
+  </div>
+
 
     <div ng-if="currentUser.role == 'admin'">
       <div class="userListing">

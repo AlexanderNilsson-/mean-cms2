@@ -6,6 +6,7 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
   $rootScope.$on(AUTH_EVENTS.loginSuccess, updateScope);
   $rootScope.$on(AUTH_EVENTS.loginFailed, loginfail);
   $rootScope.$on(AUTH_EVENTS.loginFailed, updateScope);
+  $rootScope.$on(AUTH_EVENTS.logoutSuccess, updateScope);
   $rootScope.$on("updatedPostData", updatePostDataScope);
   $rootScope.$on("updatedUserData", updateUserDataScope);
   $rootScope.$on("currentSessionDataUpdated", updateScope);
@@ -58,7 +59,7 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
 
   function updateUserDataScope(event, next) {
     $rootScope.userData = next;
-    
+
     updateScope();
   }
 
