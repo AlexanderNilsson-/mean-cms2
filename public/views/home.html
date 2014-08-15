@@ -10,8 +10,8 @@
 	      <li class="author"><h5>Av {{posts.author}}</h5></li>
 	      <li class="author"><h5>Id {{posts._id}}</h5></li>
 
-	      <div ng-if="isAuthorized(currentUser.role)"><a class="btn edit" ng-href="/admin/edit/{{posts._id}}">Edit</a><a class="btn delete" ng-click="deletePost(posts._id)">Delete</a></div>
+	      <div ng-if="isAuthorized(currentUser.role)"><a class="btn btn-default edit" ng-href="/admin/edit/{{posts._id}}">Edit</a><a class="btn btn-default delete" ng-click="deletePost(posts._id)">Delete</a></div>
 	    </div> 
     </ul>
   </div>
-</div>
+</div> 
