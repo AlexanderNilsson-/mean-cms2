@@ -6,7 +6,7 @@
 
     <title>Starter Node and Angular</title>
     <!--media queries and viewport-->
-    <script src="http.//css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+    <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="viewport" content="width=device-width">
 
@@ -15,7 +15,7 @@
     <!-- bootstrap styles -->
     <link rel="stylesheet" href="css/app.css"> <!-- custom styles -->
     <!--    bootstrap JS    -->
-    <script src="bootstrap/js/bootstrap.js"></script>
+
 
 
     <!-- ANGULAR CUSTOM -->
@@ -27,6 +27,7 @@
     <script src="js/lib/angular/angular-sanitize.js"></script>
     <script src="js/lib/angular/angular-ui-router.js"></script>
     <script src="js/lib/jquery-1.11.1.min.js"></script>
+    <script src="js/lib/bootstrap.js"></script>    
     <script src="js/app.js"></script>
     <script src="js/services.js"></script>
     <script src="js/controllers/ApplicationController.js"></script>
@@ -46,12 +47,12 @@
     <a class="menuBtn" ng-click="showMenu()"><span class="glyphicon glyphicon-search"></span></a>
     <div class="menu">
       <div ng-if="currentUser">Welcome, {{ currentUser.username }}</div>
-      <div ng-if="!currentUser"><a class="btn" href="/login">Log in</a></div>
-      <div ng-if="currentUser"><a class="btn" ng-click="logout()">Log out</a></div>
-      <div ng-if="currentUser"><a class="btn" href="/">Home</a></div>
-      <div ng-if="currentUser.role == 'admin'"><a class="btn" href="/admin/register">Register</a></div>
-      <div ng-if="currentUser.role == 'admin'"><a class="btn" href="/admin">Admin</a></div>
-      <div ng-if="currentUser.role == 'editor'"><a class="btn" href="/admin">Admin</a></div>
+      <div ng-if="!currentUser"><a class="btn btn-default" href="/login">Log in</a></div>
+      <div ng-if="currentUser"><a class="btn btn-default" ng-click="logout()">Log out</a></div>
+      <div ng-if="currentUser"><a class="btn btn-default" href="/">Home</a></div>
+      <div ng-if="currentUser.role == 'admin'"><a class="btn btn-default" href="/admin/register">Register</a></div>
+      <div ng-if="currentUser.role == 'admin'"><a class="btn btn-default" href="/admin">Admin</a></div>
+      <div ng-if="currentUser.role == 'editor'"><a class="btn btn-default" href="/admin">Admin</a></div>
     </div>
 
     <!-- ANGULAR DYNAMIC CONTENT -->

@@ -17,7 +17,7 @@
               <br>
 
               <textarea class="messagebox" ng-model="newPost.content" id="new-message" placeholder="Write your post here..."></textarea>
-              <a class="btn"  ng-click="insertNewMessage(newPost)">Send</a><a class="btn" ng-href="/admin">Cancel</a>
+              <a class="btn btn-default"  ng-click="insertNewMessage(newPost)">Send</a><a class="btn btn-default" ng-href="/admin">Cancel</a>
 
             </form>
           </div>
@@ -30,7 +30,7 @@
             <input type="text" name="title" id="title" ng-model="postData.title" ng-value="post_title" placeholder="Title">
             <br>
             <textarea class="messagebox" ng-model="postData.content" id="new-message" placeholder="Write your post here...">{{postData.content}}</textarea>
-            <a class="btn" ng-click="updateMessage(postData)">Send</a><a class="btn" ng-click="deletePost(postData._id)">Delete</a><a class="btn" ng-href="/admin">Cancel</a>
+            <a class="btn btn-default" ng-click="updateMessage(postData)">Send</a><a class="btn" ng-click="deletePost(postData._id)">Delete</a><a class="btn" ng-href="/admin">Cancel</a>
           </form>
         </div>
       </div>
@@ -46,7 +46,7 @@
         <li class="author"><h5>Av {{posts.author}}</h5></li>
         <div class="tags"><h5>Taggad:</h5> <ul ng-repeat="tag in posts.tags"><li>{{tag.tag}}</li></ul></div>
         <li class="edit"><a class="btn" ng-click="goToEdit(posts._id)">Edit</a></li>
-        <div class ="delete" ng-if="isAuthorized(currentUser.role)"><a class="btn" ng-click="deletePost(posts._id)">Delete</a></div>
+        <div class ="delete" ng-if="isAuthorized(currentUser.role)"><a class="btn btn-default" ng-click="deletePost(posts._id)">Delete</a></div>
       </div> 
     </ul>
     </div><!-- end #adminPostListDiv -->
