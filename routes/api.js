@@ -36,9 +36,9 @@ exports.getTag = function(req, res) {
 
 exports.createTag = function(req, res) {
   var newTag = new Tag (req.body);
-  console.log("createTag");
+  console.log("createTag", newTag);
   newTag.save();
-  res.json(req.body);
+  res.json(newTag);
 };
 
 exports.updateTag = function(req, res) {
