@@ -4,7 +4,7 @@
   <a ng-if="currentUser.role == 'admin'" class="btn btn-primary" ng-click="goToEdit()">Create new user</a>
   <div ng-if="isCreateView || isEditView">
    <h3 class="registerHeading">{{registerHeading}}</h3>
-   <div class="userMessage">{{userMessage}}</div>
+   <div ng-if="userMessage" class="userMessage">{{userMessage}}</div>
    <div ng-if="isCreateView">
      <form name="registerForm"
             action="" target="sink" method="post"
@@ -47,7 +47,7 @@
         <button class="btn btn-default" type="submit">Update</button>
       </form>
     </div>
-    <a class="btn btn-default" ng-href="/admin/users">Cancel</a>
+    <a ng-if="currentUser.role == 'admin'" class="btn btn-default" ng-href="/admin/users">Cancel</a>
   </div>
 
   <div ng-if="currentUser.role == 'admin'">
