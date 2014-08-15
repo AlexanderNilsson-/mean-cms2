@@ -1,6 +1,8 @@
-app.controller('ApplicationController', function ($scope, $location, $rootScope, AUTH_EVENTS, USER_ROLES, AuthService, Session) {
+app.controller('ApplicationController', function ($scope, $location, $rootScope, AUTH_EVENTS, USER_ROLES, AuthService, mongoService, Session) {
   //application controller is the "root" level controller
   //currently used to keep user variables easily accessible
+  var tagsResource = mongoService.tags();
+  $scope.allTags = tagsResource.index();
   $scope.blogTitle = "The Blog Name";
   updateScope();
   $rootScope.$on(AUTH_EVENTS.loginSuccess, updateScope);

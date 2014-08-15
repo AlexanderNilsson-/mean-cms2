@@ -141,6 +141,20 @@ ul{
 	margin-right: -10px;
 
 }
+.searchTagsList ul {
+  display: inline-block;
+  text-align: left;
+}
+
+.postTag {
+  display: inline-block;
+  padding: 3px;
+  margin: 2px;
+  border-radius: 3px;
+  border: 1px groove gray;
+  background-color: LightBlue
+}
+
 .menuBtn:hover{
 	color: grey;
 }
@@ -163,7 +177,6 @@ a:link, :visited{
 		line-height: 80px;
 		font-size: 80px;
 	}
-
 }
 
 @media screen and (min-width: 700px) {

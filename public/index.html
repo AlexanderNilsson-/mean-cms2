@@ -44,7 +44,10 @@
 
   <body ng-controller="ApplicationController">
     <div class="logo"><h1 ng-click="takeMeHome()">{{blogTitle}}</h1></div>
-    <div class="staticMenu">  
+    <div class="searchTagsList">
+        <ul><span ng-repeat="tag in allTags" id="tid_{{tag._id}}" class="postTag"><li>{{tag.tag}}</li></span></ul>
+    </div>
+    <div class="staticMenu">
       <a class="menuBtn" ng-click="showMenu()"><span class="glyphicon glyphicon-th-list"></span></a>
       <div class="menu">
         <div ng-if="currentUser">Welcome, {{ currentUser.username }}</div>
