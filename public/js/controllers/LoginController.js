@@ -9,6 +9,7 @@ app.controller('LoginController', function ($scope, $location, $rootScope, $rout
       userRoles.push({name: USER_ROLES[i]});
     }
   }
+  
   $scope.register = {};
   $scope.registerHeading = "Register new user";    
   $scope.tagline = 'To the moon and back!';

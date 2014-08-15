@@ -134,6 +134,7 @@ exports.getBlogPosts = function(req, res) {
 
 exports.getBlogPost = function(req, res) {
   Post.findOne({ _id: req.params.id }).populate("tags").exec(function(err, obj) {
+    obj.timeCreated = new Date(obj.timeStamp);
     res.json(obj);
   });
 };

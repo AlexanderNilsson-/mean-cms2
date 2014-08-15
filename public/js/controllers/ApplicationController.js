@@ -1,6 +1,9 @@
-app.controller('ApplicationController', function ($scope, $location, $rootScope, AUTH_EVENTS, USER_ROLES, AuthService, Session) {
+app.controller('ApplicationController', function ($scope, $location, $rootScope, AUTH_EVENTS, USER_ROLES, AuthService, mongoService, Session) {
   //application controller is the "root" level controller
   //currently used to keep user variables easily accessible
+  var tagsResource = mongoService.tags();
+  var postResource = mongoService.posts();
+  $scope.allTags = tagsResource.index();
   $scope.blogTitle = "The Blog Name";
   updateScope();
   $rootScope.$on(AUTH_EVENTS.loginSuccess, updateScope);
@@ -10,6 +13,7 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
   $rootScope.$on("updatedPostData", updatePostDataScope);
   $rootScope.$on("updatedUserData", updateUserDataScope);
   $rootScope.$on("currentSessionDataUpdated", updateScope);
+  $rootScope.$on("updatedShowPosts", updateShowPosts);
 
   $rootScope.$on(AUTH_EVENTS.loginSuccess, function (event, next) {
     console.log("Recieved Login", AuthService.foundAdmin);
@@ -27,9 +31,32 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
     //jQuery("body").css('border-right-width','110px')
   }
 
+  $scope.findPostsByTag = function(tag_id) {
+    postResource.index(function(res) {
+      var postsToShow = [];
+      for(var i = 0; i < res.length; i++) {
+        var theseTags = res[i].tags;
+        for (var j = 0; j < theseTags.length; j++) {
+          if (theseTags[j]._id == tag_id) {
+            postsToShow.push(res[i]);
+          }
+        }
+      }
+
+      $rootScope.$broadcast("updatedShowPosts", postsToShow);
+    });
+  }
   
   $scope.takeMeHome = function() {
-    $location.path("/");
+    $location.path("/");  
+    postResource.index(function(res) {
+      for (var i = 0; i < res.length; i++) {
+        var date = new Date(res[i].timeStamp);
+        res[i].timeCreated = date.getDay()+"/"+date.getMonth()+"/"+date.getFullYear();
+      }
+
+      $rootScope.$broadcast("updatedShowPosts", res);
+    });
   }
 
   function updateScope(){
@@ -59,6 +86,12 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
 
   function updateUserDataScope(event, next) {
     $rootScope.userData = next;
+
+    updateScope();
+  }
+
+  function updateShowPosts(event, next) {
+    $rootScope.showPosts = next;
 
     updateScope();
   }
