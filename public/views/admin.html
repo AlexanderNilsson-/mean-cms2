@@ -46,7 +46,7 @@
         </li>
         <li class="content"><p>{{posts.content}}</p></li>
         <li class="author"><h5>Av {{posts.author}}</h5></li>
-        <div class="tags"><h5>Taggad:</h5> <ul ng-repeat="tag in posts.tags"><li>{{tag.tag}}</li></ul></div>
+        <div class="tags"><h5>Taggad:</h5> <ul ng-repeat="tag in posts.tags"><span class="postTag"><li>{{tag.tag}}</li> <div id="{{tag._id}}" class="removeTag"></div></span></ul></div>
         <li class="edit"><a class="btn" ng-click="goToEdit(posts._id)">Edit</a></li>
         <div class ="delete" ng-if="isAuthorized(currentUser.role)"><a class="btn btn-default" ng-click="deletePost(posts._id)">Delete</a></div>
       </div> 
