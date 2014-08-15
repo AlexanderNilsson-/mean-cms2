@@ -2,6 +2,7 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
   //application controller is the "root" level controller
   //currently used to keep user variables easily accessible
   var tagsResource = mongoService.tags();
+  var postResource = mongoService.posts();
   $scope.allTags = tagsResource.index();
   $scope.blogTitle = "The Blog Name";
   updateScope();
@@ -29,6 +30,21 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
     //jQuery("body").css('border-right-width','110px')
   }
 
+  $scope.findPostsByTag = function(tag_id) {
+    postResource.index(function(res) {
+      var postsToShow = [];
+      for(var i = 0; i < res.length; i++) {
+        var theseTags = res[i].tags;
+        for (var j = 0; j < theseTags.length; j++) {
+          if (theseTags[j]._id == tag_id) {
+            postsToShow.push(res[i]);
+          }
+        }
+      }
+
+      $rootScope.$broadcast("updatedShowPosts", postsToShow);
+    });
+  }
   
   $scope.takeMeHome = function() {
     $location.path("/");

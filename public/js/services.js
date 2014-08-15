@@ -30,6 +30,7 @@ app.factory("mongoService", function($resource, $http) {
     );
     return resource;
   };
+
   mongoServant.tags = function() {
     var resource = $resource("/api/tags/:id", { id: "@_id" },
       {
@@ -42,7 +43,7 @@ app.factory("mongoService", function($resource, $http) {
     );
     return resource;
   };
-  
+
   mongoServant.register = function() {
     var resource = $resource("/api/users/", { },
       {
