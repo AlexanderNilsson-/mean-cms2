@@ -8,16 +8,25 @@ db.once('open', function callback () {
 });
 
 
-var postSchema = mongoose.Schema({ author: String, title: String, content: String, timeStamp: Number, tags:[{type:mongoose.Schema.Types.ObjectId, ref: 'Tag'}]});
+var postSchema = mongoose.Schema({
+  author: String,
+  title: String,
+  content: String,
+  timeStamp: Number,
+  tags:[{type:mongoose.Schema.Types.ObjectId, ref: 'Tag'}]
+});
 var Post = mongoose.model('Post', postSchema);
 
-var userSchema = mongoose.Schema({username: String, password: String, role: String});
+var userSchema = mongoose.Schema({
+  username: String,
+  password: String,
+  role: String
+});
 var User = mongoose.model('User', userSchema);
 
 var tagSchema = mongoose.Schema({
   tag: String
 });
-
 var Tag = mongoose.model("Tag", tagSchema);
 
 exports.getTags = function(req, res) {
@@ -25,14 +34,14 @@ exports.getTags = function(req, res) {
     console.log("Found tags: ", obj);
     res.json(obj);
   });
-}
+};
 
 exports.getTag = function(req, res) {
   Tag.findOne({ _id: req.params.id }, function(err, obj) {
     console.log("Found tag: ", obj);
     res.json(obj);
   });
-}
+};
 
 exports.createTag = function(req, res) {
   var newTag = new Tag (req.body);
@@ -74,19 +83,10 @@ exports.getUsers = function (req, res) {
 };
 
 exports.getUser = function(req, res) {
-  // User.find({user_name: req.params.user_name, password: req.params.password}, function(err, obj) {
-  // if (req.params.username && req.params.password) {
-
-  //   User.findOne({username: req.params.username, password: req.params.password}, function(err, obj) {
-  //     console.log("Login Response: ", obj);
-  //     res.json(obj);
-  //   });
-  // } else if (req.params.id) {
-    User.findOne({_id: req.params.id}, function(err, obj) {
-      console.log("getUser: ", obj);
-      res.json(obj);
-    });
-  // }
+  User.findOne({_id: req.params.id}, function(err, obj) {
+    console.log("getUser: ", obj);
+    res.json(obj);
+  });
 };
 
 exports.createUser = function(req, res) {
