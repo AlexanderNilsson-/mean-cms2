@@ -58,6 +58,7 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
 
   function updateUserDataScope(event, next) {
     $rootScope.userData = next;
+    
     updateScope();
   }
 

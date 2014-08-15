@@ -21,6 +21,12 @@ app.controller('LoginController', function ($scope, $location, $rootScope, $rout
     var editUserID = $routeParams.id;
     console.log("editUserID: ", editUserID);
     userResource.show({"id": editUserID}, function(res){
+      for (var i in $scope.userRoles) {
+        if ($scope.userRoles[i].name == res.role) {
+          res.role = $scope.userRoles[i];
+          console.log("userData role", res);
+        }
+      }
       $rootScope.$broadcast("updatedUserData", res);
     });
   }
@@ -30,15 +36,6 @@ app.controller('LoginController', function ($scope, $location, $rootScope, $rout
     $scope.isCreateView = $location.path().search("admin/users/create") >= 0 ? true : false;
     $scope.isEditView = $location.path().search("admin/users/edit") >= 0 ? true : false;
     $scope.userData = $rootScope.userData;
-    for (var i in $scope.userRoles) {
-      if ($scope.userRoles[i].name == $scope.userData.role) {
-        $scope.userData.role = $scope.userRoles[i];
-        console.log("userData role", $scope.userData.role);
-      }
-    }
-
-    console.log("recieved userData", $scope.userData);
-    // $scope.userData = userData;
   });
 
   //if no admin is created, allow user to create one.
