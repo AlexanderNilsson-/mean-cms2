@@ -18,7 +18,7 @@
 
 body {
   font-family: helvetica;
-  margin: 10px;
+  
 }
 
 footer {
@@ -125,12 +125,14 @@ div.userListing ul li h5 {
 	font-size: 40px;
 	font-family: "Playfair Display";
 	display: block;
+	cursor: pointer;
 
 }
 ul{
 	margin: 0;
 }
 .menuBtn{
+	color: grey;
 	font-size: 30px;
 	height: 35px;
 	width: 35px;
@@ -138,7 +140,22 @@ ul{
 	float: right;
 	margin-top: -50px;
 	margin-right: -10px;
+
 }
+.menuBtn:hover{
+	color: grey;
+}
+.staticMenu{
+	position: fixed;
+	right: 10px;
+}
+a:hover{
+	text-decoration: none;
+}
+a:link, :visited{
+	color: black;
+}
+
 @media screen and (min-width: 480px) {
 	
 	.logo > h1{

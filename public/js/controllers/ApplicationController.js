@@ -21,8 +21,14 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
   jQuery("div.menu").hide();
   $scope.showMenu = function () {
     jQuery("div.menu").toggle(200);
+    //jQuery("body").css('border-right-width','110px')
   }
+
   
+  $scope.takeMeHome = function() {
+    $location.path("/");
+  }
+
   function updateScope(){
     $scope.currentUser = Session.getSession();
     $scope.userRoles = USER_ROLES;
