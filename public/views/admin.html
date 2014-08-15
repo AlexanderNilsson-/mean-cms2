@@ -20,39 +20,57 @@
               <br>
               <textarea class="tagbox" ng-model="tags" placeholder="Tags"></textarea>
               <a class="btn btn-default"  ng-click="insertNewMessage(newPost, tags)">Send</a><a class="btn btn-default" ng-href="/admin">Cancel</a>
-
             </form>
           </div>
         </div>
-      <div ng-if="isEditView">
-        <div id="updatePostWrapper">
-          <h3>Update post</h3>
-          <form>
-            <br>
-            <input type="text" name="title" id="title" ng-model="postData.title" ng-value="post_title" placeholder="Title">
-            <br>
-            <textarea class="messagebox" ng-model="postData.content" id="new-message" placeholder="Write your post here...">{{postData.content}}</textarea>
-            <a class="btn btn-default" ng-click="updateMessage(postData)">Send</a><a class="btn" ng-click="deletePost(postData._id)">Delete</a><a class="btn" ng-href="/admin">Cancel</a>
-          </form>
-        </div>
-      </div>
-    </div> <!-- end #adminEditorMainDiv -->
-  </div>
-    <div ng-show="showPostList" ng-hide="!showPostList" id="adminPostListDiv">
-      <ul ng-repeat="posts in showPosts">
-      <div class="blogpost">
-        <li class="title">
-          <h1><a ng-href="/view/{{posts._id}}">{{posts.title}}</a></h1>
-        </li>
-        <li class="content"><p>{{posts.content}}</p></li>
-        <li class="author"><h5>Av {{posts.author}}</h5></li>
-        <div class="tags"><h5>Taggad:</h5> <ul><span ng-repeat="tag in posts.tags" class="postTag"><li>{{tag.tag}}</li> <div id="{{tag._id}}" class="removeTag"></div></span></ul></div>
-        <li class="edit"><a class="btn" ng-click="goToEdit(posts._id)">Edit</a></li>
-        <div class ="delete" ng-if="isAuthorized(currentUser.role)"><a class="btn btn-default" ng-click="deletePost(posts._id)">Delete</a></div>
-      </div> 
-    </ul>
-    </div><!-- end #adminPostListDiv -->
 
+        <div ng-if="isEditView">
+          <div id="updatePostWrapper">
+            <h3>Update post</h3>
+            <form>
+              <br>
+              <input type="text" name="title" id="title" ng-model="postData.title" ng-value="post_title" placeholder="Title">
+              <br>
+              <textarea class="messagebox" ng-model="postData.content" id="new-message" placeholder="Write your post here...">{{postData.content}}</textarea>
+              <div class="tags">
+                <h5>Tags:</h5>
+                <ul>
+                  <span ng-repeat="tag in postData.tags" class="postTag">
+                    <li>{{tag.tag}}
+                      <div ng-click="removeTag(tag._id)" class="removeTag"/>
+                    </li>
+                  </span>
+                </ul>
+              </div>
+              <a class="btn btn-default" ng-click="updateMessage(postData)">Update</a><a class="btn btn-default" ng-click="deletePost(postData._id)">Delete</a><a class="btn btn-default" ng-href="/admin">Cancel</a>
+            </form>
+          </div>
+        </div>
+      </div> <!-- end #adminEditorMainDiv -->
+    </div>
+
+    <div ng-if="showPostList"id="adminPostListDiv">
+      <ul ng-repeat="posts in showPosts">
+        <div class="blogpost">
+          <li class="title">
+            <h1><a ng-href="/view/{{posts._id}}">{{posts.title}}</a></h1>
+          </li>
+          <li class="content"><p>{{posts.content}}</p></li>
+          <li class="author"><h5>Av {{posts.author}}</h5></li>
+          <div class="tags">
+            <h5>Tags:</h5>
+            <ul>
+              <span ng-repeat="tag in posts.tags" class="postTag">
+                <li>{{tag.tag}}</li>
+              </span>
+            </ul>
+          </div>
+
+          <li class="edit"><a class="btn" ng-click="goToEdit(posts._id)">Edit</a></li>
+          <div class ="delete" ng-if="isAuthorized(currentUser.role)"><a class="btn btn-default" ng-click="deletePost(posts._id)">Delete</a></div>
+        </div> 
+      </ul>
+    </div><!-- end #adminPostListDiv -->
   </div> <!-- end #adminMainDiv -->
 
 

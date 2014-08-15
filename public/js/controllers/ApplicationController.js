@@ -13,6 +13,7 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
   $rootScope.$on("updatedPostData", updatePostDataScope);
   $rootScope.$on("updatedUserData", updateUserDataScope);
   $rootScope.$on("currentSessionDataUpdated", updateScope);
+  $rootScope.$on("updatedShowPosts", updateShowPosts);
 
   $rootScope.$on(AUTH_EVENTS.loginSuccess, function (event, next) {
     console.log("Recieved Login", AuthService.foundAdmin);
@@ -47,7 +48,15 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
   }
   
   $scope.takeMeHome = function() {
-    $location.path("/");
+    $location.path("/");  
+    postResource.index(function(res) {
+      for (var i = 0; i < res.length; i++) {
+        var date = new Date(res[i].timeStamp);
+        res[i].timeCreated = date.getDay()+"/"+date.getMonth()+"/"+date.getFullYear();
+      }
+
+      $rootScope.$broadcast("updatedShowPosts", res);
+    });
   }
 
   function updateScope(){
@@ -77,6 +86,12 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
 
   function updateUserDataScope(event, next) {
     $rootScope.userData = next;
+
+    updateScope();
+  }
+
+  function updateShowPosts(event, next) {
+    $rootScope.showPosts = next;
 
     updateScope();
   }

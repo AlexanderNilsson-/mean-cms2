@@ -4,10 +4,6 @@ app.controller('AdminController', function($scope, $rootScope, mongoService, $lo
   $scope.newPost = {};
   $scope.newPost.tags = [];
 
-  tagsResource.show({id:"53ecba7fb3986c5a3ea22390"}, function(res) {
-    console.log("tagsResource.show ", res);
-  });
-
   $scope.currentUser = Session.getSession();
   $scope.showPosts = postsResource.index();
 
@@ -54,26 +50,19 @@ app.controller('AdminController', function($scope, $rootScope, mongoService, $lo
   var allcreatedtags = [];
 
   $scope.insertNewMessage = function(message, tags) {
-    console.log(tags);
     tags = tags.split(" ");
-    console.log(tags);
     var timeStamp = new Date().getTime();
     message.timeStamp = timeStamp;
     message.author = $scope.currentUser.username;
     for (var i = 0; i < tags.length; i++) {
       tagsResource.create({"tag":tags[i]}, function(res) {
-
         res.amountToCreate = tags.length;
-
         $rootScope.$broadcast("newTagCreated", res);
       });
     }
     
     $rootScope.$on("newTagCreated", function(event, next) {
-      console.log("newTagCreated", next._id);
       allcreatedtags.push(next._id);
-      //console.log("newTagCreated id", next._id);
-      //$scope.message.tags.push(next._id);
       if (allcreatedtags.length == next.amountToCreate) {
         console.log("completedOperation allcreatedtags: ", allcreatedtags);
 
@@ -81,18 +70,25 @@ app.controller('AdminController', function($scope, $rootScope, mongoService, $lo
         message.tags = allcreatedtags;
         console.log("MESSAGE", message);
         postsResource.create(message);
-        jQuery("div#createPostDialog").remove();
         alert("Your message has been posted");
         $location.path("/");
       }
     })
-
-
   };
+
+  $scope.removeTag = function(tag_id) {
+    var currentTags = $scope.postData.tags;
+    for (var i = 0; i < currentTags.length; i++) {
+      if (currentTags[i]._id == tag_id) {
+        currentTags.splice(i, 1);
+      }
+    }
+
+    $scope.postData.tags = currentTags;
+  }
 
   $scope.updateMessage = function(message) {
     postsResource.update(message);
-    jQuery("div#updatePostDialog").remove();
     $location.path("/admin");
     $scope.postData = null;
   };
