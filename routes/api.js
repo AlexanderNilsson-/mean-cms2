@@ -25,7 +25,10 @@ var userSchema = mongoose.Schema({
 var User = mongoose.model('User', userSchema);
 
 var tagSchema = mongoose.Schema({
-  tag: String
+  tag: {
+    type: String,
+    unique: true
+  }
 });
 var Tag = mongoose.model("Tag", tagSchema);
 
@@ -46,6 +49,17 @@ exports.getTag = function(req, res) {
 exports.createTag = function(req, res) {
   var newTag = new Tag (req.body);
   console.log("createTag", newTag);
+  var currentTags = Tag.find({}, function(err, obj) {
+    for (var i = 0; i < obj.length; i++){
+      if (newTag.tag == obj[i].tag){
+        console.log("match!");
+      }
+      else {
+        console.log("NO match!");
+      }
+    }
+  });
+  console.log("currentTags", currentTags);
   newTag.save();
   res.json(newTag);
 };
