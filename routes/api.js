@@ -127,7 +127,7 @@ exports.deleteUser = function(req, res) {
 };
 
 exports.getBlogPosts = function(req, res) {
-  Post.find({}).populate("tags").exec(function(err, obj) {
+  Post.find({}).populate("tags").sort({'timeStamp': -1}).exec(function(err, obj) {
     res.json(obj);
   });
 };
