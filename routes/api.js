@@ -47,21 +47,23 @@ exports.getTag = function(req, res) {
 };
 
 exports.createTag = function(req, res) {
+  console.log("REQ.BODY: ", req.body);
   var newTag = new Tag (req.body);
   console.log("createTag", newTag);
-  var currentTags = Tag.find({}, function(err, obj) {
-    for (var i = 0; i < obj.length; i++){
-      if (newTag.tag == obj[i].tag){
-        console.log("match!");
-      }
-      else {
-        console.log("NO match!");
-      }
+  // Check if tag already exists, and if it does, use it. Otherwise save as new.
+  Tag.findOne({ tag: req.body.tag }, function(err, obj) {
+    // If it doesnt exist
+    if (obj === null) {
+      console.log("no match in current DB, saving as new post: ", newTag);
+      newTag.save();
+      res.json(newTag);
+    }
+    // If it exists
+    else {
+      console.log("already exists in DB: ", obj);
+      res.json(obj);
     }
   });
-  console.log("currentTags", currentTags);
-  newTag.save();
-  res.json(newTag);
 };
 
 exports.updateTag = function(req, res) {
