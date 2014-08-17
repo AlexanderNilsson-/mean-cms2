@@ -3,7 +3,7 @@
     <div class="tagFiltration">
       <a class="btn btn-default tagbutton" ng-click="showSearchTagList()">{{tagFilterBtnText}}</a>
       <div class="searchTagsList">
-          <h3>Filter by tag: </h3>
+         <!-- <h3>Filter by tag: </h3>-->
           <ul><span ng-repeat="tag in allTags" ng-click="findPostsByTag(tag._id)" id="tid_{{tag._id}}" style="font-size: {{tag.fontSize}};" class="postTag"><li>{{tag.tag}}</li></span></ul>
       </div>
     </div>
