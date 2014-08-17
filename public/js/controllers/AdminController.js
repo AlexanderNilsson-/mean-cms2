@@ -1,7 +1,7 @@
 app.controller('AdminController', function($scope, $rootScope, mongoService, $location, $routeParams, Session, AuthService) {
   var postsResource = mongoService.posts();
   var tagsResource = mongoService.tags();
-  //var titlesResource = mongoService.titles();
+  var titlesResource = mongoService.titles();
   $scope.newTitle = {};
   $scope.newPost = {};
   $scope.newPost.tags = "";
@@ -53,7 +53,7 @@ app.controller('AdminController', function($scope, $rootScope, mongoService, $lo
   var allcreatedtags = [];
 
   $scope.insertTitle = function(title) {
-   // titlesResource.create(title);
+    titlesResource.create(title);
     console.log(title);
   };
 

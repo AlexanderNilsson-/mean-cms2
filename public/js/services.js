@@ -54,9 +54,8 @@ app.factory("mongoService", function($resource, $http) {
     return resource;
   };
 
-  return mongoServant;
 
-   mongoServant.titles = function() {
+  mongoServant.titles = function() {
     var resource = $resource("/api/titles/", { },
       {
         'create':  { method: 'POST' },

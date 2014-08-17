@@ -33,11 +33,10 @@ var tagSchema = mongoose.Schema({
 var Tag = mongoose.model("Tag", tagSchema);
 
 var titleSchema = mongoose.Schema({
-  title: {
-    name: String,
-  }
+  name : String
 });
 var Title = mongoose.model("Title", titleSchema);
+
 
 exports.createTitle = function(req, res) {
   var newTitle = new Title (req.body);
