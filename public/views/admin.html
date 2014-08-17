@@ -35,11 +35,7 @@
               <div class="tags">
                 <h5>Tags:</h5>
                 <ul>
-                  <span ng-repeat="tag in postData.tags" class="postTag">
-                    <li>{{tag.tag}}
-                      <div ng-click="removeTag(tag._id)" class="removeTag"/>
-                    </li>
-                  </span>
+                  <textarea class="tagbox" ng-model="postData.tagStrings" placeholder="Tags"></textarea>
                 </ul>
               </div>
               <a class="btn btn-default" ng-click="updateMessage(postData)">Update</a><a class="btn btn-default" ng-click="deletePost(postData._id)">Delete</a><a class="btn btn-default" ng-href="/admin">Cancel</a>
@@ -66,7 +62,7 @@
             </ul>
           </div>
 
-          <li class="edit"><a class="btn" ng-click="goToEdit(posts._id)">Edit</a></li>
+          <li class="edit"><a class="btn btn-default" ng-click="goToEdit(posts._id)">Edit</a></li>
           <div class="delete" ng-if="isAuthorized(currentUser.role)"><a class="btn btn-default" ng-click="deletePost(posts._id)">Delete</a></div>
         </div> 
       </ul>

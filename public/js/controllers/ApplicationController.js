@@ -130,6 +130,16 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
     newPostData.author = next.author;
     newPostData.title = next.title;
     newPostData.content = next.content;
+    newPostData.tags = next.tags;
+    newPostData.tagStrings = "";
+
+    for(var i = 0; i < newPostData.tags.length; i++) {
+      newPostData.tagStrings += newPostData.tags[i].tag;
+      console.log("newPostData.tags[i].tag: ", newPostData.tags[i].tag);
+      if (i != newPostData.tags.length-1) {
+        newPostData.tagStrings += " ";
+      }
+    }
     newPostData._id = next._id;
 
     $rootScope.postData = newPostData;

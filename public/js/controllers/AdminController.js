@@ -22,10 +22,11 @@ app.controller('AdminController', function($scope, $rootScope, mongoService, $lo
 
   $rootScope.$on("updatedPostData", function(event, next) {
     //when we recieve data for edit, re-check some important scope variables
+    $scope.postData = $rootScope.postData;
+    console.log("postData: ", $scope.postData);
     $scope.showPostList = (!$scope.isCreateView && !$scope.isEditView) ? true : false;
     $scope.isCreateView = $location.path().search("admin/create") >= 0 ? true : false;
     $scope.isEditView = $location.path().search("admin/edit") >= 0 ? true : false;
-    $scope.postData = $rootScope.postData;
   });
 
   $scope.create = function (credentials) {
@@ -58,7 +59,7 @@ app.controller('AdminController', function($scope, $rootScope, mongoService, $lo
       message.tags = [];
       postsResource.create(message);
       $rootScope.$broadcast("updatedShowPosts");
-      $scope.message = "";
+      $scope.newPost = "";
       alert("Your message has been posted");
       $location.path("/");
     } else {
@@ -78,28 +79,46 @@ app.controller('AdminController', function($scope, $rootScope, mongoService, $lo
         message.tags = allcreatedtags;
         postsResource.create(message);
         $rootScope.$broadcast("updatedShowPosts");
-        $scope.message = "";
-        alert("Your message has been posted");
+        $scope.newPost = "";
+        alert("Your post has been posted");
         $location.path("/");
       }
     });
   };
 
-  $scope.removeTag = function(tag_id) {
-    var currentTags = $scope.postData.tags;
-    for (var i = 0; i < currentTags.length; i++) {
-      if (currentTags[i]._id == tag_id) {
-        currentTags.splice(i, 1);
+  $scope.updateMessage = function(message) {
+    var tags = message.tagStrings;
+    if (tags.length == 0) {
+      message.tags = [];
+      postsResource.update(message);
+      $rootScope.$broadcast("updatedShowPosts");
+      $scope.postData = "";
+      alert("Your post has been updated");
+      $location.path("/admin");
+    } else {
+      tags = tags.split(" ");
+      for (var i = 0; i < tags.length; i++) {
+        tagsResource.create({"tag":tags[i]}, function(res) {
+          res.amountToCreate = tags.length;
+          $rootScope.$broadcast("newUpdateTagCreated", res);
+        });
       }
     }
-
-    $scope.postData.tags = currentTags;
-  }
-
-  $scope.updateMessage = function(message) {
-    postsResource.update(message);
-    $location.path("/admin");
-    $scope.postData = null;
+    
+    var allcreatedtags = [];
+    $rootScope.$on("newUpdateTagCreated", function(event, next) {
+      allcreatedtags.push(next._id);
+      if (allcreatedtags.length == next.amountToCreate) {
+        console.log("allcreatedtags for update: ", allcreatedtags);
+        //post update function
+        message.tags = allcreatedtags;
+        postsResource.update(message);
+        $rootScope.$broadcast("updatedShowPosts");
+        $scope.postData = "";
+        alert("Your post has been updated!");
+        $location.path("/admin");
+      }
+    });
   };
   
   $scope.deletePost = function(post_id){

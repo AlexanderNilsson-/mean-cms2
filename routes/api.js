@@ -34,14 +34,14 @@ var Tag = mongoose.model("Tag", tagSchema);
 
 exports.getTags = function(req, res) {
   Tag.find({}, function(err, obj) {
-    console.log("Found tags: ", obj);
+    // console.log("Found tags: ", obj);
     res.json(obj);
   });
 };
 
 exports.getTag = function(req, res) {
   Tag.findOne({ _id: req.params.id }, function(err, obj) {
-    console.log("Found tag: ", obj);
+    // console.log("Found tag: ", obj);
     res.json(obj);
   });
 };
@@ -148,7 +148,7 @@ exports.createBlogPost = function(req, res) {
 
 exports.updateBlogPost = function(req, res) {
   Post.findByIdAndUpdate(req.params.id, {
-    $set: { author: req.body.author,title: req.body.title, content: req.body.content}
+    $set: { author: req.body.author,title: req.body.title, content: req.body.content, tags: req.body.tags}
   }, { upsert: true },
   function(err, obj) {
     console.log("Updated blog", obj);
