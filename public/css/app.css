@@ -148,11 +148,13 @@ ul{
 	margin-right: -10px;
 
 }
+
 .searchTagsList {
   font-size: 1em;
   display: none;
   margin: 5px auto;
 }
+
 .searchTagsList ul {
   display: inline-block;
   text-align: left;
