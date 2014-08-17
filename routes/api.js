@@ -46,7 +46,7 @@ exports.createTitle = function(req, res) {
 };
 
 exports.getTitles = function(req, res) {
-  Title.findOne({}, {}, { sort: { 'created_at' : -1 } },function(err, obj) {
+  Title.findOne({}, {}, { sort: { '_id' : -1 } },function(err, obj) {
     console.log("Found titles: ", obj);
     res.json(obj);
   });
