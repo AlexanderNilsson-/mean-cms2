@@ -172,6 +172,11 @@ ul{
   cursor:pointer;
 
 }
+.tags ul {
+  padding-left: 0px;
+  padding-bottom: 15px;
+}
+
 .tagbutton{
 	float: left;
 	margin-bottom: 10px;
