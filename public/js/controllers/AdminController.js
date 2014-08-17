@@ -2,7 +2,7 @@ app.controller('AdminController', function($scope, $rootScope, mongoService, $lo
   var postsResource = mongoService.posts();
   var tagsResource = mongoService.tags();
   $scope.newPost = {};
-  $scope.newPost.tags = [];
+  $scope.newPost.tags = "";
 
   $scope.currentUser = Session.getSession();
   $scope.showPosts = postsResource.index();
@@ -49,16 +49,28 @@ app.controller('AdminController', function($scope, $rootScope, mongoService, $lo
 
   var allcreatedtags = [];
 
-  $scope.insertNewMessage = function(message, tags) {
-    tags = tags.split(" ");
+  $scope.insertNewMessage = function(message) {
+    var tags = message.tags;
     var timeStamp = new Date().getTime();
     message.timeStamp = timeStamp;
     message.author = $scope.currentUser.username;
-    for (var i = 0; i < tags.length; i++) {
-      tagsResource.create({"tag":tags[i]}, function(res) {
-        res.amountToCreate = tags.length;
-        $rootScope.$broadcast("newTagCreated", res);
-      });
+
+    console.log("tags.length: ", tags.length);
+    console.log("tags: ", tags);
+    if (tags.length == 0) {
+      message.tags = [];
+      postsResource.create(message);
+      $scope.message = "";
+      alert("Your message has been posted");
+      $location.path("/");
+    } else {
+      tags = tags.split(" ");
+      for (var i = 0; i < tags.length; i++) {
+        tagsResource.create({"tag":tags[i]}, function(res) {
+          res.amountToCreate = tags.length;
+          $rootScope.$broadcast("newTagCreated", res);
+        });
+      }
     }
     
     $rootScope.$on("newTagCreated", function(event, next) {
@@ -70,10 +82,11 @@ app.controller('AdminController', function($scope, $rootScope, mongoService, $lo
         message.tags = allcreatedtags;
         console.log("MESSAGE", message);
         postsResource.create(message);
+        $scope.message = "";
         alert("Your message has been posted");
         $location.path("/");
       }
-    })
+    });
   };
 
   $scope.removeTag = function(tag_id) {
