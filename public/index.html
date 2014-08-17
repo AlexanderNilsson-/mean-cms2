@@ -46,7 +46,7 @@
     <div class="logo"><h1 ng-click="takeMeHome()">{{blogTitle}}</h1></div>
     <a class="btn btn-default" ng-click="showSearchTagList()">{{tagFilterBtnText}}</a>
     <div class="searchTagsList">
-        <h2>Search by tag: </h2>
+        <h3>Filter by tag: </h3>
         <ul><span ng-repeat="tag in allTags" ng-click="findPostsByTag(tag._id)" id="tid_{{tag._id}}" style="font-size: {{tag.fontSize}};" class="postTag"><li>{{tag.tag}}</li></span></ul>
     </div>
     <div class="staticMenu">
