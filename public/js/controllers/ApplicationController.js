@@ -12,7 +12,6 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
 
   $scope.blogTitle = {name: "The Blog Title"};
   titleResource.index(function(res) {
-    console.log("title index: ", res);
     if (res.hasOwnProperty("name")) {
       $scope.blogTitle = res;
       updateScope();
