@@ -8,6 +8,7 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
   $scope.isAuthorized = AuthService.isAuthorized;
   $scope.isAdmin = AuthService.isAdmin;
   $scope.isAdminView  = $location.path().search("/admin") >= 0 ? true : false;
+  $scope.isAdminHomeView  = $location.path() == "/admin" ? true : false;
   $scope.isHomeViews  = ($location.path() == "/admin" ||  $location.path() == "/") ? true : false;
   $scope.isEditTitleView = false;
 
@@ -46,8 +47,9 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
     $scope.isAuthenticated = AuthService.isAuthenticated;
     $scope.isAdmin = AuthService.isAdmin;
     $scope.tagFilterBtnText = "Show tags";
-    $scope.isAdminView  = $location.path().search("/admin") >= 0 ? true : false;
-    $scope.isHomeViews  = ($location.path() == "/admin" ||  $location.path() == "/") ? true : false;
+    $scope.isAdminHomeView  = $location.path() == "/admin" ? true : false;
+    $scope.isAdminView = $location.path().search("/admin") >= 0 ? true : false;
+    $scope.isHomeViews = ($location.path() == "/admin" ||  $location.path() == "/") ? true : false;
     $scope.isEditTitleView = false;
     $scope.logout = function() {
       //wrapped in a function in case we want to add more stuff here :)
