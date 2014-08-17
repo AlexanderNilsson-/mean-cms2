@@ -107,10 +107,12 @@ div.userMessage {
   color: red;
   width: 500px;
 }
-
+.newUsers{
+  margin: 45px;
+}
 div.userListing ul li {
   display: block;
-  margin: 5px 0;
+  margin: 0px 5px;
 }
 
 div.userListing ul li h5 {

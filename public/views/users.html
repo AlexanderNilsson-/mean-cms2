@@ -1,7 +1,7 @@
 
 <div class="main">
   <div class="users">
-    <a ng-if="isAdmin() && !isCreateView && !isEditView" class="btn btn-primary" ng-click="goToEdit()">Create new user</a>
+    <a ng-if="isAdmin() && !isCreateView && !isEditView" class="btn btn-primary newUsers" ng-click="goToEdit()">Create new user</a>
     <div ng-if="isCreateView || isEditView">
       <h3 class="registerHeading">{{registerHeading}}</h3>
       <div ng-if="userMessage" class="userMessage">{{userMessage}}</div>
