@@ -3,10 +3,11 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
   //currently used to keep user variables easily accessible
   var tagsResource = mongoService.tags();
   var postResource = mongoService.posts();
+  var titleResource = mongoService.titles();
   $scope.isAuthorized = AuthService.isAuthorized;
   $scope.isAdmin = AuthService.isAdmin;
 
-  $scope.blogTitle = "The Blog Name";
+  $scope.blogTitle = titleResource.index();
   updateScope();
   $rootScope.$on(AUTH_EVENTS.loginSuccess, updateScope);
   $rootScope.$on(AUTH_EVENTS.loginFailed, loginfail);

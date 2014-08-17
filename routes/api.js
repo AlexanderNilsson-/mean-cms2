@@ -46,8 +46,8 @@ exports.createTitle = function(req, res) {
 };
 
 exports.getTitles = function(req, res) {
-  Titles.find({}, function(err, obj) {
-    // console.log("Found titles: ", obj);
+  Title.find({}, function(err, obj) {
+    console.log("Found titles: ", obj);
     res.json(obj);
   });
 };
