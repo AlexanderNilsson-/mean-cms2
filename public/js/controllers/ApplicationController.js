@@ -106,7 +106,7 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
     if (show) {
       $scope.tagFilterBtnText = "Cancel";    
     } else {
-      $scope.tagFilterBtnText = "Filter by tag";
+      $scope.tagFilterBtnText = "Show tags";
     }
     jQuery("div.searchTagsList").toggle();
     $scope.showSearchTagListDiv = show;

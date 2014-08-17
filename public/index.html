@@ -56,6 +56,7 @@
       <div class="menu">
         <div ng-if="currentUser">Welcome, {{ currentUser.username }}</div>
         <div ng-if="!currentUser"><a class="btn btn-default" href="/login">Log in</a></div>
+        <a class="btn btn-default tagbutton" ng-click="showSearchTagList()">{{tagFilterBtnText}}</a>
         <div ng-if="currentUser"><a class="btn btn-default" ng-click="logout()">Log out</a></div>
         <div ng-if="currentUser"><a class="btn btn-default" href="/">Home</a></div>
         <div ng-if="isAdmin()"><a class="btn btn-default" href="/admin/users">Users</a></div>
