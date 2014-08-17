@@ -34,6 +34,8 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
     $scope.isAuthorized = AuthService.isAuthorized;
     $scope.isAuthenticated = AuthService.isAuthenticated;
     $scope.isAdmin = AuthService.isAdmin;
+    $scope.tagFilterBtnText = "Filter by tag";
+    $scope.showSearchTagListDiv = false;
     $scope.logout = function() {
       //wrapped in a function in case we want to add more stuff here :)
       Session.destroy();
@@ -87,15 +89,17 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
   }
 
   $scope.tagFilterBtnText = "Filter by tag";
+  $scope.showSearchTagListDiv = false;
 
   $scope.showSearchTagList = function() {
-    jQuery("div.searchTagsList").toggle();
-    var show = jQuery("div.searchTagsList").is(':visible');
+    var show = !$scope.showSearchTagListDiv ? true : false;
     if (show) {
-      $scope.tagFilterBtnText = "Cancel";
+      $scope.tagFilterBtnText = "Cancel";    
     } else {
       $scope.tagFilterBtnText = "Filter by tag";
     }
+    jQuery("div.searchTagsList").toggle();
+    $scope.showSearchTagListDiv = show;
   }
 
   $scope.findPostsByTag = function(tag_id) {
