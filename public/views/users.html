@@ -1,7 +1,7 @@
 
 <div class="main">
   <div class="users">
-    <a ng-if="currentUser.role == 'admin'" class="btn btn-primary" ng-click="goToEdit()">Create new user</a>
+    <a ng-if="isAdmin() && !isCreateView && !isEditView" class="btn btn-primary" ng-click="goToEdit()">Create new user</a>
     <div ng-if="isCreateView || isEditView">
       <h3 class="registerHeading">{{registerHeading}}</h3>
       <div ng-if="userMessage" class="userMessage">{{userMessage}}</div>
@@ -51,7 +51,7 @@
     </div>
   </div>
 
-  <div ng-if="currentUser.role == 'admin'">
+  <div ng-if="!isCreateView && !isEditView">
     <div class="userListing">
       <ul ng-repeat="user in userList">
         <div ng-if="user.username">
