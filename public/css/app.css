@@ -43,6 +43,7 @@ li {
 }
 
 .main{
+  border-top: 4px solid black;
 	width: 90%;
 	margin: 40px auto 20px;
 }
