@@ -59,7 +59,7 @@ app.factory("mongoService", function($resource, $http) {
     var resource = $resource("/api/titles/", { },
       {
         'create':  { method: 'POST' },
-        'index':   { method: 'GET', isArray: true }
+        'index':   { method: 'GET', isArray: false }
       }
     );
     return resource;

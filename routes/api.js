@@ -46,11 +46,12 @@ exports.createTitle = function(req, res) {
 };
 
 exports.getTitles = function(req, res) {
-  Title.find({}, function(err, obj) {
+  Title.findOne({}, {}, { sort: { 'created_at' : -1 } },function(err, obj) {
     console.log("Found titles: ", obj);
     res.json(obj);
   });
 };
+
 
 exports.getTags = function(req, res) {
   Tag.find({}, function(err, obj) {
