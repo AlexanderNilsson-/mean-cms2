@@ -43,7 +43,14 @@
   </head>
 
   <body ng-controller="ApplicationController">
-    <div class="logo"><h1 ng-hide="isEditTitleView" ng-click="takeMeHome()">{{blogTitle.name}}</h1><input ng-show="isEditTitleView" type="text" ng-model="blogTitle.name" class="form-control editTitleInput"><div ng-if="isAdmin && isAdminView" class="editBlogTitleBtn"><a ng-hide="isEditTitleView" class="btn btn-default edit editTitle" ng-click="toggleEditBlogTitle()">Edit Blog Title</a><a ng-show="isEditTitleView" class="btn btn-default edit" ng-click="updateBlogTitle(blogTitle)">Update</a></div></div>
+    <div class="logo">
+        <h1 ng-hide="isEditTitleView" ng-click="takeMeHome()">{{blogTitle.name}}</h1>
+        <input ng-show="isEditTitleView" type="text" ng-model="blogTitle.name" class="form-control editTitleInput">
+        <div ng-if="isAdmin() && isAdminView" class="editBlogTitleBtn">
+            <a ng-hide="isEditTitleView" class="btn btn-default edit editTitle" ng-click="toggleEditBlogTitle()">Edit Blog Title</a>
+            <a ng-show="isEditTitleView" class="btn btn-default edit" ng-click="updateBlogTitle(blogTitle)">Update</a>
+        </div>
+    </div>
     <div class="staticMenu">
       <a class="menuBtn" ng-click="showMenu()"><span class="glyphicon glyphicon-th-list"></span></a>
       <div class="menu">
