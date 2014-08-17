@@ -14,7 +14,7 @@ app.controller('HomeController',function($scope, mongoService, $routeParams, $ro
     postsResource.index(function(res) {
       for (var i = 0; i < res.length; i++) {
         var date = new Date(res[i].timeStamp);
-        res[i].timeCreated = date.getDay()+"/"+date.getMonth()+"/"+date.getFullYear();
+        res[i].timeCreated = date.getDate()+"/"+date.getMonth()+"/"+date.getFullYear();
       }
 
       $rootScope.$broadcast("updatedShowPosts", res);
