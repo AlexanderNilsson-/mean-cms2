@@ -47,6 +47,7 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
     $scope.isAuthenticated = AuthService.isAuthenticated;
     $scope.isAdmin = AuthService.isAdmin;
     $scope.tagFilterBtnText = "Show tags";
+    $scope.showSearchTagListDiv = false;
     $scope.isAdminHomeView  = $location.path() == "/admin" ? true : false;
     $scope.isAdminView = $location.path().search("/admin") >= 0 ? true : false;
     $scope.isHomeViews = ($location.path() == "/admin" ||  $location.path() == "/") ? true : false;
