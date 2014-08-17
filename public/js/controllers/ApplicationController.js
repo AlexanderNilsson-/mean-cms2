@@ -7,7 +7,7 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
   $scope.isAuthorized = AuthService.isAuthorized;
   $scope.isAdmin = AuthService.isAdmin;
 
-  $scope.blogTitle = titleResource.index();
+  $scope.blogTitle = titleResource.index().length > 0 ? titleResource.index() : {name: "The Blog Title"};
   updateScope();
   $rootScope.$on(AUTH_EVENTS.loginSuccess, updateScope);
   $rootScope.$on(AUTH_EVENTS.loginFailed, loginfail);
@@ -20,7 +20,6 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
   $rootScope.$on('$locationChangeStart', updateScope);
 
   $rootScope.$on(AUTH_EVENTS.loginSuccess, function (event, next) {
-    console.log("Recieved Login", AuthService.foundAdmin);
     updateScope();
     $location.path("/admin");
   });
@@ -86,7 +85,6 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
   jQuery("div.menu").hide();
   $scope.showMenu = function () {
     jQuery("div.menu").toggle(200);
-    //jQuery("body").css('border-right-width','110px')
   }
 
   $scope.tagFilterBtnText = "Filter by tag";
