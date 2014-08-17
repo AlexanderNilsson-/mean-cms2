@@ -39,6 +39,7 @@ var Title = mongoose.model("Title", titleSchema);
 
 
 exports.createTitle = function(req, res) {
+  console.log("title req ", req)
   var newTitle = new Title (req.body);
   console.log("createTitle", req.body);
   newTitle.save();
@@ -49,6 +50,16 @@ exports.getTitles = function(req, res) {
   Title.findOne({}, {}, { sort: { '_id' : -1 } },function(err, obj) {
     console.log("Found titles: ", obj);
     res.json(obj);
+  });
+};
+
+exports.updateTitles = function(req, res) {
+  Title.findByIdAndUpdate(req.params.id, {
+    $set: { name: req.body.name }
+  }, { upsert: true },
+  function(err, obj) {
+    console.log("Updated blog title", obj);
+    return res.json(true);
   });
 };
 

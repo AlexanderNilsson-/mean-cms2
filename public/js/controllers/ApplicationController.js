@@ -4,10 +4,21 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
   var tagsResource = mongoService.tags();
   var postResource = mongoService.posts();
   var titleResource = mongoService.titles();
+
   $scope.isAuthorized = AuthService.isAuthorized;
   $scope.isAdmin = AuthService.isAdmin;
+  $scope.isAdminView  = $location.path().search("/admin") >= 0 ? true : false;
+  $scope.isEditTitleView = false;
 
-  $scope.blogTitle = titleResource.index().length > 0 ? titleResource.index() : {name: "The Blog Title"};
+  $scope.blogTitle = {name: "The Blog Title"};
+  titleResource.index(function(res) {
+    console.log("title index: ", res);
+    if (res.hasOwnProperty("name")) {
+      $scope.blogTitle = res;
+      updateScope();
+    }
+  });
+
   updateScope();
   $rootScope.$on(AUTH_EVENTS.loginSuccess, updateScope);
   $rootScope.$on(AUTH_EVENTS.loginFailed, loginfail);
@@ -17,7 +28,7 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
   $rootScope.$on("updatedUserData", updateUserDataScope);
   $rootScope.$on("currentSessionDataUpdated", updateScope);
   $rootScope.$on("updatedShowPosts", updateShowPosts);
-  $rootScope.$on('$locationChangeStart', updateScope);
+  $rootScope.$on('$locationChangeSuccess', updateScope);
 
   $rootScope.$on(AUTH_EVENTS.loginSuccess, function (event, next) {
     updateScope();
@@ -35,7 +46,8 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
     $scope.isAuthenticated = AuthService.isAuthenticated;
     $scope.isAdmin = AuthService.isAdmin;
     $scope.tagFilterBtnText = "Filter by tag";
-    $scope.showSearchTagListDiv = false;
+    $scope.isAdminView  = $location.path().search("/admin") >= 0 ? true : false;
+    $scope.isEditTitleView = false;
     $scope.logout = function() {
       //wrapped in a function in case we want to add more stuff here :)
       Session.destroy();
@@ -116,6 +128,22 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
       $rootScope.$broadcast("updatedShowPosts", postsToShow);
     });
   }
+
+  $scope.toggleEditBlogTitle = function() {
+    $scope.isEditTitleView = true;
+  }
+
+  $scope.updateBlogTitle = function(blogTitle) {
+    titleResource.index(function(res) {
+      if (res.hasOwnProperty("name") > 0) {
+        titleResource.update(blogTitle);
+      } else {
+        titleResource.create(blogTitle);
+      }
+    });
+    $location.path("/admin");
+    $scope.isEditTitleView = false;
+  }
   
   $scope.takeMeHome = function() {
     $location.path("/");  
@@ -139,7 +167,6 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
 
     for(var i = 0; i < newPostData.tags.length; i++) {
       newPostData.tagStrings += newPostData.tags[i].tag;
-      console.log("newPostData.tags[i].tag: ", newPostData.tags[i].tag);
       if (i != newPostData.tags.length-1) {
         newPostData.tagStrings += " ";
       }

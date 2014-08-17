@@ -56,10 +56,11 @@ app.factory("mongoService", function($resource, $http) {
 
 
   mongoServant.titles = function() {
-    var resource = $resource("/api/titles/", { },
+    var resource = $resource("/api/titles/:id", { id: "@_id"},
       {
         'create':  { method: 'POST' },
-        'index':   { method: 'GET', isArray: false }
+        'index':   { method: 'GET', isArray: false },
+        'update':  { method: 'PUT' }
       }
     );
     return resource;

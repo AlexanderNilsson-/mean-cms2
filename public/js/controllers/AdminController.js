@@ -1,8 +1,6 @@
 app.controller('AdminController', function($scope, $rootScope, mongoService, $location, $routeParams, Session, AuthService) {
   var postsResource = mongoService.posts();
   var tagsResource = mongoService.tags();
-  var titlesResource = mongoService.titles();
-  $scope.newTitle = {};
   $scope.newPost = {};
   $scope.newPost.tags = "";
 
@@ -11,8 +9,8 @@ app.controller('AdminController', function($scope, $rootScope, mongoService, $lo
 
   //scope variables to
   $scope.showPostList = true;
-  $scope.isCreateView = $location.path().search("admin/create") >= 0 ? true : false;
-  $scope.isEditView = $location.path().search("admin/edit") >= 0 ? true : false;
+  $scope.isCreateView = $location.path().search("/admin/create") >= 0 ? true : false;
+  $scope.isEditView = $location.path().search("/admin/edit") >= 0 ? true : false;
   $scope.showPostList = (!$scope.isCreateView && !$scope.isEditView) ? true : false;
 
   if ($scope.isEditView) {
@@ -27,8 +25,8 @@ app.controller('AdminController', function($scope, $rootScope, mongoService, $lo
     $scope.postData = $rootScope.postData;
     console.log("postData: ", $scope.postData);
     $scope.showPostList = (!$scope.isCreateView && !$scope.isEditView) ? true : false;
-    $scope.isCreateView = $location.path().search("admin/create") >= 0 ? true : false;
-    $scope.isEditView = $location.path().search("admin/edit") >= 0 ? true : false;
+    $scope.isCreateView = $location.path().search("/admin/create") >= 0 ? true : false;
+    $scope.isEditView = $location.path().search("/admin/edit") >= 0 ? true : false;
   });
 
   $scope.create = function (credentials) {
@@ -51,12 +49,6 @@ app.controller('AdminController', function($scope, $rootScope, mongoService, $lo
   };
 
   var allcreatedtags = [];
-
-  $scope.insertTitle = function(title) {
-    titlesResource.create(title);
-    console.log(title);
-  };
-
   $scope.insertNewMessage = function(message) {
     var tags = message.tags;
     var timeStamp = new Date().getTime();

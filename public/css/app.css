@@ -125,6 +125,21 @@ div.userListing ul li h5 {
 	position: relative;
 	
 }
+
+.editBlogTitleBtn {
+  position: absolute;
+  bottom: -50px;
+  right: 10px;
+}
+
+.editTitleInput {
+  height: 100px;
+  width: 60%;
+  margin: 20px auto 10px;
+  font-size: 50px;
+  font-family: "Playfair Display";
+  text-align: center;
+}
 .logo > h1{
 	line-height: 40px;
 	position: relative;
