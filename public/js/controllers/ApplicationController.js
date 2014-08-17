@@ -3,7 +3,7 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
   //currently used to keep user variables easily accessible
   var tagsResource = mongoService.tags();
   var postResource = mongoService.posts();
-  $scope.allTags = tagsResource.index();
+
   $scope.blogTitle = "The Blog Name";
   updateScope();
   $rootScope.$on(AUTH_EVENTS.loginSuccess, updateScope);
@@ -25,10 +25,62 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
     $location.path("/login");
   });
 
+  $scope.allTags = [];
+  getAllTags();
+
+  function getAllTags() {
+    //function to get all tags from posts, count them, and only display tags in tag cloud that are in use
+    var amountOfUsedTags = {};
+    tagsResource.index(function(allTags) {
+      postResource.index(function(allPosts) {
+        for(var i = 0; i < allPosts.length; i++) {
+          var theseTags = allPosts[i].tags;
+          for (var j = 0; j < theseTags.length; j++) {
+            for (var x = 0; x < allTags.length; x++) {
+              if (theseTags[j]._id == allTags[x]._id) {
+                allTags[x].currentAmountInUse = allTags[x].hasOwnProperty("currentAmountInUse") ? allTags[x].currentAmountInUse+1 : 1;
+              }
+            }
+          }
+        }
+
+        var tagsInUse = []; 
+        for (var y = 0; y < allTags.length; y++) {
+          if (allTags[y].hasOwnProperty("currentAmountInUse")) {
+            if (allTags[y].currentAmountInUse > 1) {
+              allTags[y].fontSize = "1."+allTags[y].currentAmountInUse+"em";
+            } else {
+              allTags[y].fontSize = "1em";
+            }
+
+            tagsInUse.push(allTags[y]);
+          }
+        }
+        $scope.allTags = tagsInUse;
+      });
+    });
+  }
+
+
   jQuery("div.menu").hide();
   $scope.showMenu = function () {
     jQuery("div.menu").toggle(200);
     //jQuery("body").css('border-right-width','110px')
+  }
+
+  $scope.tagFilterBtnText = "Filter by tag";
+  $scope.showTagFilterBox = false;
+
+  $scope.showSearchTagList = function() {
+    var show = !$scope.showTagFilterBox ? true : false;
+    if (show) {
+      $scope.tagFilterBtnText = "Cancel";
+    } else {
+      $scope.tagFilterBtnText = "Filter by tag";
+    }
+
+    jQuery("div.searchTagsList").toggle();
+    $scope.showTagFilterBox = show;
   }
 
   $scope.findPostsByTag = function(tag_id) {
@@ -91,7 +143,12 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
   }
 
   function updateShowPosts(event, next) {
+    if (!next) {
+      next = postResource.index();
+    }
+
     $rootScope.showPosts = next;
+    getAllTags();
 
     updateScope();
   }

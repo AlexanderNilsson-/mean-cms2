@@ -54,12 +54,10 @@ app.controller('AdminController', function($scope, $rootScope, mongoService, $lo
     var timeStamp = new Date().getTime();
     message.timeStamp = timeStamp;
     message.author = $scope.currentUser.username;
-
-    console.log("tags.length: ", tags.length);
-    console.log("tags: ", tags);
     if (tags.length == 0) {
       message.tags = [];
       postsResource.create(message);
+      $rootScope.$broadcast("updatedShowPosts");
       $scope.message = "";
       alert("Your message has been posted");
       $location.path("/");
@@ -76,12 +74,10 @@ app.controller('AdminController', function($scope, $rootScope, mongoService, $lo
     $rootScope.$on("newTagCreated", function(event, next) {
       allcreatedtags.push(next._id);
       if (allcreatedtags.length == next.amountToCreate) {
-        console.log("completedOperation allcreatedtags: ", allcreatedtags);
-
         //post save function
         message.tags = allcreatedtags;
-        console.log("MESSAGE", message);
         postsResource.create(message);
+        $rootScope.$broadcast("updatedShowPosts");
         $scope.message = "";
         alert("Your message has been posted");
         $location.path("/");

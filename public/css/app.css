@@ -148,6 +148,11 @@ ul{
 	margin-right: -10px;
 
 }
+.searchTagsList {
+  font-size: 1em;
+  display: none;
+  margin: 5px auto;
+}
 .searchTagsList ul {
   display: inline-block;
   text-align: left;
@@ -155,7 +160,7 @@ ul{
 
 .postTag {
   display: inline-block;
-  padding: 3px;
+  padding: 2px 5px;
   margin: 2px;
   border-radius: 3px;
   border: 1px groove gray;
