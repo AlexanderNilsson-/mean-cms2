@@ -55,6 +55,18 @@ app.factory("mongoService", function($resource, $http) {
   };
 
   return mongoServant;
+
+   mongoServant.titles = function() {
+    var resource = $resource("/api/titles/", { },
+      {
+        'create':  { method: 'POST' },
+        'index':   { method: 'GET', isArray: true }
+      }
+    );
+    return resource;
+  };
+
+  return mongoServant;
 })
 
 .factory('AuthService', function (Session, USER_ROLES, mongoService, $rootScope, AUTH_EVENTS, $location) {

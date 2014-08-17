@@ -1,6 +1,8 @@
 app.controller('AdminController', function($scope, $rootScope, mongoService, $location, $routeParams, Session, AuthService) {
   var postsResource = mongoService.posts();
   var tagsResource = mongoService.tags();
+  //var titlesResource = mongoService.titles();
+  $scope.newTitle = {};
   $scope.newPost = {};
   $scope.newPost.tags = "";
 
@@ -33,7 +35,7 @@ app.controller('AdminController', function($scope, $rootScope, mongoService, $lo
     //AuthService deals with all authentication of users
     credentials.role = credentials.role.name;
     AuthService.create(credentials);
-  }
+  };
 
   $scope.goToEdit = function(post_id) {
     //function that goes to /create or /edit/:id
@@ -49,6 +51,11 @@ app.controller('AdminController', function($scope, $rootScope, mongoService, $lo
   };
 
   var allcreatedtags = [];
+
+  $scope.insertTitle = function(title) {
+   // titlesResource.create(title);
+    console.log(title);
+  };
 
   $scope.insertNewMessage = function(message) {
     var tags = message.tags;

@@ -22,11 +22,21 @@
               <br>
               <input type="text" name="title" id="title" ng-model="newPost.title" placeholder="Title">
               <br>
-
               <textarea class="messagebox" ng-model="newPost.content" id="new-message" placeholder="Write your post here..."></textarea>
               <br>
               <textarea class="tagbox" ng-model="newPost.tags" placeholder="Tags"></textarea>
               <a class="btn btn-default"  ng-click="insertNewMessage(newPost)">Send</a><a class="btn btn-default" ng-href="/admin">Cancel</a>
+            </form>
+          </div>
+
+
+           <div id="createTitleWrapper">
+          <h3>Create new Blogtitle</h3>
+            <form>
+              <br>
+              <input type="text" name="blogtitle" id="blogtitle" ng-model="newTitle.name" placeholder="Title">
+              <br>
+              <a class="btn btn-default"  ng-click="insertTitle(newTitle)">Send</a><a class="btn btn-default" ng-href="/admin">Cancel</a>
             </form>
           </div>
         </div>

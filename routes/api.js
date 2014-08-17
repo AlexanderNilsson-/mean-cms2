@@ -32,6 +32,27 @@ var tagSchema = mongoose.Schema({
 });
 var Tag = mongoose.model("Tag", tagSchema);
 
+var titleSchema = mongoose.Schema({
+  title: {
+    name: String,
+  }
+});
+var Title = mongoose.model("Title", titleSchema);
+
+exports.createTitle = function(req, res) {
+  var newTitle = new Title (req.body);
+  console.log("createTitle", req.body);
+  newTitle.save();
+  res.json(req.body);
+};
+
+exports.getTitles = function(req, res) {
+  Titles.find({}, function(err, obj) {
+    // console.log("Found titles: ", obj);
+    res.json(obj);
+  });
+};
+
 exports.getTags = function(req, res) {
   Tag.find({}, function(err, obj) {
     // console.log("Found tags: ", obj);

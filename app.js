@@ -34,6 +34,9 @@ app.get("/api/users/:id", api.getUser);
 app.put('/api/users/:id', api.updateUser);
 app.delete('/api/users/:id', api.deleteUser);
 
+app.post('/api/titles', api.createTitle);
+app.get('/api/titles', api.getTitles);
+
 app.get('/api/posts', api.getBlogPosts);
 app.get('/api/posts/:id', api.getBlogPost);
 
