@@ -1,17 +1,7 @@
-To reach admin-page go to /admin
+Hi there and welcome to ZeMongular CMS!
 
+Getting started with your new CMS is super simple: all you have to do is clone this repo into your MEANstack nodejs folder and go to the localhost:3000 page!
 
-Using idea from: 
-https://medium.com/opinionated-angularjs/techniques-for-authentication-in-angularjs-applications-7bbf0346acec
-For login solution, heavily modified!
+If you have any questions, ZeMongulars will gladly answer them by mail!
 
-
-BIG LESSON LEARNED:
-when configuring /app.js routes such as:
-
-app.get("/api/users", api.getUsers);
-
-the string after /api/ MUST match the db collection it is going to
-AKA: /api/users to access db.users, /api/posts to access db.posts
-
-//H
+// E, A, H
