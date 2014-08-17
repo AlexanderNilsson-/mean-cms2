@@ -8,6 +8,7 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
   $scope.isAuthorized = AuthService.isAuthorized;
   $scope.isAdmin = AuthService.isAdmin;
   $scope.isAdminView  = $location.path().search("/admin") >= 0 ? true : false;
+  $scope.isHomeViews  = ($location.path() == "/admin" ||  $location.path() == "/") ? true : false;
   $scope.isEditTitleView = false;
 
   $scope.blogTitle = {name: "The Blog Title"};
@@ -27,7 +28,7 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
   $rootScope.$on("updatedUserData", updateUserDataScope);
   $rootScope.$on("currentSessionDataUpdated", updateScope);
   $rootScope.$on("updatedShowPosts", updateShowPosts);
-  $rootScope.$on('$locationChangeSuccess', updateScope);
+  $rootScope.$on('$locationChangeStart', updateScope);
 
   $rootScope.$on(AUTH_EVENTS.loginSuccess, function (event, next) {
     updateScope();
@@ -44,8 +45,9 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
     $scope.isAuthorized = AuthService.isAuthorized;
     $scope.isAuthenticated = AuthService.isAuthenticated;
     $scope.isAdmin = AuthService.isAdmin;
-    $scope.tagFilterBtnText = "Filter by tag";
+    $scope.tagFilterBtnText = "Show tags";
     $scope.isAdminView  = $location.path().search("/admin") >= 0 ? true : false;
+    $scope.isHomeViews  = ($location.path() == "/admin" ||  $location.path() == "/") ? true : false;
     $scope.isEditTitleView = false;
     $scope.logout = function() {
       //wrapped in a function in case we want to add more stuff here :)
@@ -104,7 +106,7 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
   $scope.showSearchTagList = function() {
     var show = !$scope.showSearchTagListDiv ? true : false;
     if (show) {
-      $scope.tagFilterBtnText = "Cancel";    
+      $scope.tagFilterBtnText = "Hide tags";    
     } else {
       $scope.tagFilterBtnText = "Show tags";
     }
