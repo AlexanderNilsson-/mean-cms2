@@ -6,7 +6,6 @@ var app = angular.module('myApp', ["ngResource", "ngRoute", "ui.router"])
     //when a user requests a new url, check if they are allowed
     //to go there. For example: any url containing substr "admin"
     var currentUser = Session.getSession();
-    console.log("currentUser: ", currentUser);
     $rootScope.$on('$locationChangeStart', function (event, next) {
       AuthService.adminExists();
       var adminExists = AuthService.foundAdmin;

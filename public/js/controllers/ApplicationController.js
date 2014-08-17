@@ -16,6 +16,7 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
   $rootScope.$on("updatedUserData", updateUserDataScope);
   $rootScope.$on("currentSessionDataUpdated", updateScope);
   $rootScope.$on("updatedShowPosts", updateShowPosts);
+  $rootScope.$on('$locationChangeStart', updateScope);
 
   $rootScope.$on(AUTH_EVENTS.loginSuccess, function (event, next) {
     console.log("Recieved Login", AuthService.foundAdmin);
@@ -86,18 +87,15 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
   }
 
   $scope.tagFilterBtnText = "Filter by tag";
-  $scope.showTagFilterBox = false;
 
   $scope.showSearchTagList = function() {
-    var show = !$scope.showTagFilterBox ? true : false;
+    jQuery("div.searchTagsList").toggle();
+    var show = jQuery("div.searchTagsList").is(':visible');
     if (show) {
       $scope.tagFilterBtnText = "Cancel";
     } else {
       $scope.tagFilterBtnText = "Filter by tag";
     }
-
-    jQuery("div.searchTagsList").toggle();
-    $scope.showTagFilterBox = show;
   }
 
   $scope.findPostsByTag = function(tag_id) {

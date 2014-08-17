@@ -4,7 +4,7 @@
     <h1>Admin page</h1>
     <a class="btn btn-default" ng-click="goToEdit()">Create new post</a>
   </header>
-  <div class="tagFiltration">
+  <div ng-if="!(isCreateView || isEditView)" class="tagFiltration">
       <a class="btn btn-default tagbutton" ng-click="showSearchTagList()">{{tagFilterBtnText}}</a>
       <div class="searchTagsList">
           <!--<h3>Filter by tag: </h3>-->
