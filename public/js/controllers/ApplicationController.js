@@ -3,6 +3,8 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
   //currently used to keep user variables easily accessible
   var tagsResource = mongoService.tags();
   var postResource = mongoService.posts();
+  $scope.isAuthorized = AuthService.isAuthorized;
+  $scope.isAdmin = AuthService.isAdmin;
 
   $scope.blogTitle = "The Blog Name";
   updateScope();
@@ -24,6 +26,21 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
   $rootScope.$on(AUTH_EVENTS.loginFailed, function (event, next) {
     $location.path("/login");
   });
+
+  function updateScope(){
+    $scope.currentUser = Session.getSession();
+    $scope.userRoles = USER_ROLES;
+    $scope.isAuthorized = AuthService.isAuthorized;
+    $scope.isAuthenticated = AuthService.isAuthenticated;
+    $scope.isAdmin = AuthService.isAdmin;
+    $scope.logout = function() {
+      //wrapped in a function in case we want to add more stuff here :)
+      Session.destroy();
+      $location.path("/");
+      // Eriks masterpiece. 
+      updateScope();
+    };
+  }
 
   $scope.allTags = [];
   getAllTags();
@@ -109,20 +126,6 @@ app.controller('ApplicationController', function ($scope, $location, $rootScope,
 
       $rootScope.$broadcast("updatedShowPosts", res);
     });
-  }
-
-  function updateScope(){
-    $scope.currentUser = Session.getSession();
-    $scope.userRoles = USER_ROLES;
-    $scope.isAuthorized = AuthService.isAuthorized;
-    $scope.isAuthenticated = AuthService.isAuthenticated;
-    $scope.logout = function() {
-      //wrapped in a function in case we want to add more stuff here :)
-      Session.destroy();
-      $location.path("/");
-      // Eriks masterpiece. 
-      updateScope();
-    };
   }
 
   function updatePostDataScope(event, next) {

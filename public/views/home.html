@@ -1,5 +1,12 @@
 <div>
   <div class="main">
+    <div class="tagFiltration">
+      <a class="btn btn-default tagbutton" ng-click="showSearchTagList()">{{tagFilterBtnText}}</a>
+      <div class="searchTagsList">
+          <h3>Filter by tag: </h3>
+          <ul><span ng-repeat="tag in allTags" ng-click="findPostsByTag(tag._id)" id="tid_{{tag._id}}" style="font-size: {{tag.fontSize}};" class="postTag"><li>{{tag.tag}}</li></span></ul>
+      </div>
+    </div>
     <ul ng-repeat="posts in showPosts">
 	    <div class="blogpost">
 	      <li class="title">
@@ -10,7 +17,7 @@
 		  <li class="author"><h5>By {{posts.author}} on {{posts.timeCreated}}</h5></li>
        	  <div ng-if="posts.tags.length > 0" class="tags"><h5>Tags:</h5> <ul><span ng-repeat="tag in posts.tags" class="postTag"><li>{{tag.tag}}</li></span></ul></div>
 	      
-	      <div ng-if="isAuthorized(currentUser.role)"><a class="btn btn-default edit" ng-href="/admin/edit/{{posts._id}}">Edit</a><a class="btn btn-default delete" ng-click="deletePost(posts._id)">Delete</a></div>
+	      <div ng-if="isAuthorized()"><a class="btn btn-default edit" ng-href="/admin/edit/{{posts._id}}">Edit</a><a class="btn btn-default delete" ng-click="deletePost(posts._id)">Delete</a></div>
 	    </div> 
     </ul>
   </div>

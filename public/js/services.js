@@ -70,7 +70,7 @@ app.factory("mongoService", function($resource, $http) {
               var success = Session.create(res);
               var authorizedRoles = AuthServant.authorizedRoles;
 
-              if (success && (authorizedRoles.indexOf(success.role) >= 0)) {
+              if (success) {
                 AuthServant.adminExists();
                 //broadcast your success to the world!
                 $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
@@ -107,12 +107,18 @@ app.factory("mongoService", function($resource, $http) {
     //i have no idea what this does
     return !!Session._id;
   };
-  AuthServant.isAuthorized = function (authorizedRoles) {
-    if (!angular.isArray(authorizedRoles)) {
-      authorizedRoles = [authorizedRoles];
-    }
 
-    return (AuthServant.isAuthenticated() && authorizedRoles.indexOf(Session.role) !== -1);
+  AuthServant.isAuthorized = function () {
+    var currentUser = Session.getSession();
+    var authorizedRoles = AuthServant.authorizedRoles;
+
+    return (AuthServant.isAuthenticated() && authorizedRoles.indexOf(currentUser.role) !== -1);
+  };
+
+  AuthServant.isAdmin = function () {
+    var currentUser = Session.getSession();
+
+    return (AuthServant.isAuthorized() && currentUser.role == USER_ROLES.admin);
   };
 
   AuthServant.adminExists = function() {

@@ -44,13 +44,6 @@
 
   <body ng-controller="ApplicationController">
     <div class="logo"><h1 ng-click="takeMeHome()">{{blogTitle}}</h1></div>
-    <div class="tagFiltration main">
-        <a class="btn btn-default tagbutton" ng-click="showSearchTagList()">{{tagFilterBtnText}}</a>
-        <div class="searchTagsList">
-            <!--<h3>Filter by tag: </h3> -->
-            <ul><span ng-repeat="tag in allTags" ng-click="findPostsByTag(tag._id)" id="tid_{{tag._id}}" style="font-size: {{tag.fontSize}};" class="postTag"><li>{{tag.tag}}</li></span></ul>
-        </div>
-    </div>
     <div class="staticMenu">
       <a class="menuBtn" ng-click="showMenu()"><span class="glyphicon glyphicon-th-list"></span></a>
       <div class="menu">
@@ -58,9 +51,8 @@
         <div ng-if="!currentUser"><a class="btn btn-default" href="/login">Log in</a></div>
         <div ng-if="currentUser"><a class="btn btn-default" ng-click="logout()">Log out</a></div>
         <div ng-if="currentUser"><a class="btn btn-default" href="/">Home</a></div>
-        <div ng-if="currentUser.role == 'admin'"><a class="btn btn-default" href="/admin/users">Users</a></div>
-        <div ng-if="currentUser.role == 'admin'"><a class="btn btn-default" href="/admin">Admin</a></div>
-        <div ng-if="currentUser.role == 'editor'"><a class="btn btn-default" href="/admin">Admin</a></div>
+        <div ng-if="isAdmin()"><a class="btn btn-default" href="/admin/users">Users</a></div>
+        <div ng-if="isAuthorized();"><a class="btn btn-default" href="/admin">Admin</a></div>
       </div>
     </div>
     <!-- ANGULAR DYNAMIC CONTENT -->

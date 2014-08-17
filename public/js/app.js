@@ -2,9 +2,11 @@
 
 // Declare app level module which depends on filters, and services
 var app = angular.module('myApp', ["ngResource", "ngRoute", "ui.router"])
-  .run(function ($rootScope, AUTH_EVENTS, AuthService, Session, $location) {
+  .run(function ($rootScope, AUTH_EVENTS, USER_ROLES, AuthService, Session, $location) {
     //when a user requests a new url, check if they are allowed
     //to go there. For example: any url containing substr "admin"
+    var currentUser = Session.getSession();
+    console.log("currentUser: ", currentUser);
     $rootScope.$on('$locationChangeStart', function (event, next) {
       AuthService.adminExists();
       var adminExists = AuthService.foundAdmin;
@@ -14,7 +16,12 @@ var app = angular.module('myApp', ["ngResource", "ngRoute", "ui.router"])
       if (next.indexOf("admin") > -1 && adminExists) {
         var authorizedRoles = AuthService.authorizedRoles;
 
-        if (!AuthService.isAuthorized(authorizedRoles)) {
+        if (next.indexOf("admin/users") > -1 && AuthService.isAuthorized() && currentUser.role != USER_ROLES.admin) {
+          event.preventDefault();
+          location.href = "/admin";
+        }
+
+        if (!AuthService.isAuthorized()) {
           event.preventDefault();
           if (AuthService.isAuthenticated()) {
             // user is not allowed
@@ -29,7 +36,7 @@ var app = angular.module('myApp', ["ngResource", "ngRoute", "ui.router"])
         if ((next.indexOf("admin") > -1 && next.indexOf("admin/users/create") < 0) || next.indexOf("admin/users/create") < 0) {
           var authorizedRoles = AuthService.authorizedRoles;
           event.preventDefault();
-          if (!AuthService.isAuthorized(authorizedRoles)) {
+          if (!AuthService.isAuthorized()) {
             if (AuthService.isAuthenticated()) {
               // user is not allowed
               $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
